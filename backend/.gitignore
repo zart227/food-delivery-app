@@ -1,0 +1,87 @@
+# Python
+*.pyc
+*.pyo
+__pycache__/
+*.pyd
+*.pdb
+*.egg-info/
+*.eggs/
+*.pytest_cache/
+
+# Django
+*.log
+db.sqlite3
+media/
+staticfiles/
+.env
+.env.*
+
+# Virtual environments
+venv/
+env/
+.virtualenv/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+# Coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+*.cover
+*.py,cover
+
+# Testing
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.pot
+
+# Docker
+*.pid
+*.seed
+*.lock
+build/
+dist/
+*.tar.gz
+*.whl
+.dockerignore
+.docker/
+
+# MyPy
+.mypy_cache/
+dmypy.json
+dmypy.json.5
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Other
+*.sqlite3
+
+# Poetry
+poetry.lock

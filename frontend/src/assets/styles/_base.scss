@@ -1,0 +1,9 @@
+.container {
+    max-width: 1500px;
+    margin: 0 auto;
+
+    &__secandary {
+        max-width: 992px;
+        margin: 0 auto;
+    }
+}
