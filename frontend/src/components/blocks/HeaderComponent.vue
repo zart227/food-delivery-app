@@ -1,144 +1,257 @@
 <template>
-  <header class="header">
-    <div
-:class="{
-      'container header__wrapper': true,
-      'container__secandary': smallContainer
-    }">
-      <div v-if="isBasket" class="header__back">
-        <router-link to="/">
-          <ButtonComponent font-icon='fa-solid fa-arrow-left fa-2xs' is-basket-card icon-show />
+  <div :class="['header', headerClass]">
+    <div class="header__left_block">
+      <!-- Кнопка "Назад" отображается только на странице корзины -->
+      <router-link :to="backRoute">
+        <ButtonComponent
+          v-if="showBackButton"
+          font-icon="fa-solid fa-arrow-left fa-2xs"
+          is-basket-card
+          icon-show
+        />
+      </router-link>
+      
+      <ButtonComponent v-if="isProduct" font-icon='fa-solid fa-arrow-left fa-2xs' is-basket-card icon-show @click="router.go(-1)" />
+
+      <p class="header__name">{{ title }}</p>
+    </div>
+
+    <!-- Информация о корзине отображается только на главной странице -->
+    <div class="header__right_block">
+      <div v-if="showCartInfo" class="header__cart_info">
+        <div class="header__cart_info_text">
+          <p>{{ countBasket + ' ' + textBasketCount }}</p>
+          <p>{{ 'на сумму ' + sumBasket.toLocaleString() + ' ₽' }}</p>
+        </div>
+        <router-link to="/basket">
+          <ButtonComponent
+            font-icon="fa-solid fa-regular fa-basket-shopping fa-3xs"
+            is-basket-main
+            icon-show
+          />
         </router-link>
       </div>
-      <ButtonComponent v-if="isItem" font-icon='fa-solid fa-arrow-left fa-2xs' is-basket-card icon-show @click="router.go(-1)" />
-      <h1 class="header__title"> {{ title }} </h1>
-
-      <div class="header__info">
-
-        <div v-if="!isBasket" class="header__basket">
-          <p class="header__link">{{ basketCount.length }} товара<br>на сумму {{ (basketCount.reduce((a, b) => a + b.price, 0)).toLocaleString() }} ₽</p>
-
-          <router-link to="/Basket">
-            <ButtonComponent font-icon='fa-solid fa-regular fa-basket-shopping fa-3xs' is-basket-main icon-show />
-          </router-link>
-
-        </div>
-
-        <ButtonComponent is-basket-footer text-show button-text="Выйти" @click="logout" />
-      </div>
+      <ButtonComponent
+        is-basket-footer
+        text-show
+        button-text="Выйти"
+        @click="handleLogout"
+      />
     </div>
-  </header>
+  </div>
 </template>
 
 <script>
-//  import { ref } from 'vue'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import ButtonComponent from '../ui/ButtonComponent.vue'
 import { useBasketStore } from '@/stores/basket'
+import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
 
-// import basketIcon from '@/components/icons/basketIcon.vue'
-import ButtonComponent from '@/components/ui/ButtonComponent.vue'
-// import ButtonGoOut from '@/components/ui/ButtonGoOut.vue'
 
 export default {
   name: 'HeaderComponent',
   components: {
-    // basketIcon,
-    ButtonComponent
-    // ButtonGoOut
+    ButtonComponent,
   },
   props: {
     title: {
       type: String,
-      default: ''
+      default: '', // Текст заголовка
     },
-    isBasket: {
+    showBackButton: {
+      type: Boolean,
+      default: false, // Отображать ли кнопку "Назад"
+    },
+    backRoute: {
+      type: String,
+      default: '/', // Маршрут для кнопки "Назад"
+    },
+    isProduct: {
       type: Boolean,
       default: false
     },
-    smallContainer: {
+    isMain: {
       type: Boolean,
       default: false
     },
-    isItem: {
+    isBasketCart: {
       type: Boolean,
       default: false
-    }
+    },
+    showCartInfo: {
+      type: Boolean,
+      default: false
+    },
+    
   },
-  setup () {
-    const basketStore = useBasketStore()
-
+  setup() {
+    const store = useBasketStore()
+    const authStore = useAuthStore()
     const router = useRouter()
 
-    const basketCount = computed(() => basketStore.getBasketGoods)
+
+    // Загрузка корзины при монтировании компонента
+    onMounted(async () => {
+      if (authStore.isAuthenticated) { // Убедитесь, что пользователь авторизован
+        await store.fetchUserBasket();
+      }
+    });
+
+    // Количество товаров в корзине
+    const countBasket = computed(() => store.getCountProductsInBasket)
+
+    // Общая стоимость товаров в корзине
+    const sumBasket = computed(() => store.getAllPriceProductsInBasket)
+
+    // Текст после количества товаров
+    const textBasketCount = computed(() => {
+      if (countBasket.value > 10 && countBasket.value < 20) return 'товаров'
+      if (countBasket.value % 10 == 1) return 'товар'
+      if ([2, 3, 4].includes(countBasket.value % 10)) return 'товара'
+      return 'товаров'
+    })
+
+    // Возврат на предыдущую страницу
+    const goBack = () => {
+      window.history.back()
+    }
+
+    // Обработчик выхода
+    const handleLogout = async () => {
+      try {
+        await authStore.logoutUser()
+      } catch (error) {
+        console.error('Ошибка при выходе:', error)
+      }
+    }
 
     return {
-      // count,
-      // price,
+      countBasket,
+      sumBasket,
+      textBasketCount,
+      goBack,
+      handleLogout,
       router,
-      basketCount
     }
   },
-  methods: {
-    logout () {
-      // Очищаем локальное хранилище и перенаправляем на страницу авторизации
-      localStorage.setItem('currentUser', [])
-      localStorage.setItem('isAuthenticated', false)
-      this.$router.push('/auth')
+  computed: {
+    headerClass: function () {
+      return {
+        header__main: this.isMain,
+        header__basket: this.isBasketCart,
+        header__product: this.isProduct
+      }
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+/* Общие стили для всех типов шапки */
 .header {
-  background-color: #161516;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 40px;
+  padding-top: 50px;
   color: #fff;
-  padding: 48px 0 75px 0;
 
-  &__wrapper {
+  .header__name {
+    font-family: Montserrat;
+    font-size: 31px;
+    font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
+  }
+}
+
+/* Стили для главной страницы */
+.header__main {
+  padding-left: 94px;
+  padding-right: 94px;
+  width: 1440px;
+
+  .header__right_block {
+    display: flex;
+    gap: 34px;
+  }
+
+  .header__cart_info {  
+    display: flex;
+    gap:20px;
+  }
+  
+  .header__cart_info_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    text-align: right;
+    font-family: Montserrat;
+    font-size: 17px;
+    font-weight: 500;
+
+    p {
+      display: block;
+    }
+  }
+}
+
+/* Стили для корзины */
+.header__basket {
+  display: flex;
+  justify-content: space-around;
+  // align-items: center;
+
+  .header__left_block {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
     align-items: center;
+    gap: 50px;
   }
 
-  &__info {
-    display: flex;
-    align-items: center;
-    gap: 0 20px;
-  }
-
-  &__basket {
-    display: flex;
-    align-items: center;
-    gap: 0 20px;
-  }
-
-  &__title {
+  .header__name {
+    color: #fff;
+    font-family: Montserrat;
     font-size: 31px;
-    font-family: Montserrat;
+    font-style: normal;
     font-weight: 700;
+    line-height: normal;
+    text-transform: uppercase;
   }
 
-  &__link {
-    // display: flex;
-    // justify-content: space-between;
-    // align-items: center;
-    font-size: 17px;
+}
+.header__product {
+  padding-left: 94px;
+  padding-right: 94px;
+  width: 1440px;
+
+  .header__right_block {
+    display: flex;
+    gap: 34px;
+  }
+
+  .header__cart_info {  
+    display: flex;
+    gap:20px;
+  }
+  
+  .header__cart_info_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    text-align: right;
     font-family: Montserrat;
+    font-size: 17px;
     font-weight: 500;
+
+    p {
+      display: block;
+    }
   }
-
-  // :deep(.button) {
-
-  //   border: 1px solid #D58C51;
-  //   color: #D58C51;
-
-  //   &:hover {
-  //     color: inherit;
-
-  //   }
-  // }
-
 }
 </style>

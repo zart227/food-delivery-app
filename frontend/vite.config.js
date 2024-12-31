@@ -8,5 +8,9 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)) // Указывает, что "@" это "src"
     }
-  }
+  },
+  server: {
+    host: '127.0.0.1', // Укажите адрес (например, 'localhost' или '0.0.0.0' для доступа по сети)
+    port: 3000,      // Укажите порт (например, 3000)
+  },
 })

@@ -3,21 +3,24 @@
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue'
-import { useBasketStore } from '@/stores/basket'
+// import { onBeforeMount } from 'vue'
+// import { useBasketStore } from '@/stores/basket'
+// import { useAuthStore } from '@/stores/auth' // Pinia для управления авторизацией
+// // import api from './api/axios'   // Настроенный axios
 
-// Используем Pinia-хранилище корзины
-const basketStore = useBasketStore()
+// const basketStore = useBasketStore()
+// const authStore = useAuthStore()
 
-onBeforeMount(() => {
-  // Проверяем наличие данных корзины в localStorage
-  if (!localStorage.getItem('basket')) {
-    localStorage.setItem('basket', JSON.stringify([]))
-  } else {
-    // Загружаем данные корзины из localStorage в Pinia-хранилище
-    basketStore.setStoreBasket()
-  }
-})
+// onBeforeMount(async () => {
+//   try {
+//     await authStore.checkAuthStatus() // Проверяем авторизацию и устанавливаем пользователя
+//     if (authStore.isAuthenticated) {
+//       await basketStore.fetchUserBasket() // Загружаем корзину только если пользователь авторизован
+//     }
+//   } catch (error) {
+//     console.error('Ошибка при инициализации приложения:', error)
+//   }
+// })
 </script>
 
 <style lang="scss">

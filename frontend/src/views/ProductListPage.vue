@@ -1,7 +1,11 @@
 <template>
-  <div class="main">
-    <div class="main__header">
-      <HeaderProductList />
+  <div class="wrapper container">
+    <div class="header__wrapper">
+      <HeaderComponent
+        is-main
+        title="Наша продукция"
+        show-cart-info
+      />
     </div>
     <MainProductList />
   </div>
@@ -9,13 +13,13 @@
 
 <script>
 // import { ref } from 'vue'
-import HeaderProductList from '@/components/blocks/HeaderProductList.vue'
+import HeaderComponent from '@/components/blocks/HeaderComponent.vue'
 import MainProductList from '@/components/blocks/MainProductList.vue'
 
 export default {
-  name: 'MainPage',
+  name: 'ProductListPage',
   components: {
-    HeaderProductList,
+    HeaderComponent,
     MainProductList
   },
   props: {
@@ -26,17 +30,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main {
-  background: #161516;
-  padding-bottom: 45px;
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh);
 }
 
-.main__header {
-  z-index: 1;
-  background-color: #161516;
-  position: fixed;
-  width: 100%;
-  padding-top: 54px;
-  padding-bottom: 50px;
+// .product_list {
+//     flex: 1;
+//     overflow-y: auto;
+//     padding: 10px;
+// }
+.header__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

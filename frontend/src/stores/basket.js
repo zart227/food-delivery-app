@@ -1,34 +1,84 @@
-import { defineStore } from 'pinia'
-import { useGoodsStore } from './goods'
+import { defineStore } from 'pinia';
+import {
+  fetchBasket,
+  addToBasket,
+  removeFromBasket,
+  updateBasketItemQuantity,
+} from '../services/basketService';
 
 export const useBasketStore = defineStore('basket', {
   state: () => ({
-    goodsInBasket: JSON.parse(localStorage.getItem('basket')) || []
+    basket: [], // Состояние корзины
   }),
   getters: {
-    getBasketGoods: (state) => state.goodsInBasket
+    getBasketGoods: (state) => state.basket || [],
+
+    // Получить общее количество товаров в корзине
+    getCountProductsInBasket: (state) =>
+      state.basket.reduce((total, item) => total + item.quantity, 0),
+
+    // Получить общую стоимость товаров в корзине
+    getAllPriceProductsInBasket: (state) =>
+      state.basket.reduce(
+        (total, item) => total + item.quantity * item.product_data.price,
+        0
+      ),
   },
   actions: {
-    addGoodInBasket(value) {
-      const goodsStore = useGoodsStore()
-      const good = goodsStore.getGoodById(value)
-      if (good) {
-        const itemBasket = {
-          id: good.id,
-          imageSource: good.imageSource,
-          title: good.title,
-          price: good.price
-        }
-        this.goodsInBasket.push(itemBasket)
-        localStorage.setItem('basket', JSON.stringify(this.goodsInBasket))
+    setBasket(data) {
+      this.basket = data || [];
+    },
+
+    async fetchUserBasket() {
+      try {
+        const basketData = await fetchBasket();
+        this.setBasket(basketData);
+      } catch (error) {
+        console.error('Ошибка загрузки корзины:', error);
       }
     },
-    setStoreBasket() {
-      this.goodsInBasket = JSON.parse(localStorage.getItem('basket')) || []
+
+    async addGoodInBasket(productId, quantity = 1) {
+      try {
+        const basketItem = await addToBasket(productId, quantity);
+    
+        // Преобразуем значение price в число
+        basketItem.product_data.price = parseFloat(basketItem.product_data.price);
+    
+        // Проверяем, есть ли уже этот товар в корзине
+        const existingItem = this.basket.find((item) => item.product_data.id === productId);
+    
+        if (existingItem) {
+          // Если товар уже в корзине, обновляем его количество
+          existingItem.quantity += quantity;
+        } else {
+          // Если товара нет, добавляем его в корзину
+          this.basket.push(basketItem);
+        }
+      } catch (error) {
+        console.error('Ошибка добавления в корзину:', error);
+      }
+    }, 
+
+    async removeGoodFromBasket(basketItemId) {
+      try {
+        await removeFromBasket(basketItemId);
+        this.basket = this.basket.filter((item) => item.id !== basketItemId);
+      } catch (error) {
+        console.error('Ошибка удаления из корзины:', error);
+      }
     },
-    removeGoodFromBasket(index) {
-      this.goodsInBasket.splice(index, 1)
-      localStorage.setItem('basket', JSON.stringify(this.goodsInBasket))
-    }
-  }
-})
+
+    async updateBasketItemQuantity(basketItemId, quantity) {
+      try {
+        const updatedItem = await updateBasketItemQuantity(basketItemId, quantity);
+        const itemIndex = this.basket.findIndex((item) => item.id === basketItemId);
+        if (itemIndex !== -1) {
+          this.basket[itemIndex] = updatedItem;
+        }
+      } catch (error) {
+        console.error('Ошибка обновления количества товара:', error);
+      }
+    },
+  },
+});

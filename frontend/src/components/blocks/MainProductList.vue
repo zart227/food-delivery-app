@@ -1,57 +1,73 @@
 <template>
   <div class="main">
     <CardProduct
-      v-for="( cardData, index ) in prodCardData"
-      :key="index"
+      v-for="cardData in products"
+      :key="cardData.id"
       :product-id=cardData.id
       :title="cardData.title"
       :description="cardData.description"
       :price="cardData.price"
-      :image-source="cardData.imageSource"
-      @click-main = "addToBasket(cardData.id)"
+      :image-source="cardData.image"
+      @click-main = "handleAddToBasket(cardData.id)"
     />
   </div>
 </template>
 
 <script>
-// import { ref } from 'vue'
-import { computed } from 'vue'
+import { onMounted, computed } from 'vue'
 import CardProduct from '../elements/CardProduct.vue'
-import { useGoodsStore } from '@/stores/goods'
 import { useBasketStore } from '@/stores/basket'
+import { useProductsStore } from '@/stores/products'
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'MainProductList',
   components: {
-    CardProduct
+    CardProduct,
   },
-  // data () {
-  // },
-  props: {
-  },
-  setup () {
-    const goodsStore = useGoodsStore()
+  setup() {
     const basketStore = useBasketStore()
+    const productsStore = useProductsStore()
+    const toast = useToast()
 
-    // Создаем вычисляемое свойство для получения списка товаров
-    const prodCardData = computed(() => goodsStore.getGoods)
+    // Загружаем список товаров при монтировании
+    onMounted(async () => {
+      try {
+        await productsStore.fetchAllProducts()
+      } catch (error) {
+        toast.error('Ошибка загрузки товаров!')
+        console.error('Ошибка загрузки товаров:', error)
+      }
+    })
 
-    // Создаем функцию для добавления товара в корзину
-    const addToBasket = (goodId) => {
-      basketStore.addGoodInBasket(goodId)
+    // Получаем список товаров из стора
+    const products = computed(() => productsStore.getProductList)
+
+    // Добавление товара в корзину
+    const handleAddToBasket = (productId) => {
+      toast.success('Товар добавлен в корзину!')
+      basketStore.addGoodInBasket(productId)
     }
-    
+
+    // Форматирование цены
+    // const formatPrice = (price) => {
+    //   const numericPrice = parseFloat(price)
+    //   return isNaN(numericPrice) ? '0.00' : numericPrice.toFixed(2)
+    // }
+
     return {
-      prodCardData,
-      addToBasket
+      products,
+      handleAddToBasket,
+      // formatPrice,
+      toast
     }
-  }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .main {
-  padding-top: 170px;
+  padding-top: 20px;
   display: grid;
   grid-template-columns: repeat(4, 312px);
   justify-content: center;

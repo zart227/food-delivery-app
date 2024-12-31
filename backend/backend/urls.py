@@ -14,9 +14,38 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.http import HttpResponseRedirect
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+def activation_redirect_view(request, uid, token):
+    # frontend_url = f"http://127.0.0.1:5173/auth/activate?uid={uid}&token={token}"
+    frontend_url = (
+        f"http://127.0.0.1:5173/auth?mode=activateAccount&uid={uid}&token={token}"
+    )
+
+    return HttpResponseRedirect(frontend_url)
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("api/auth/", include("djoser.urls")),
+    path("api/auth/", include("djoser.urls.jwt")),
+    # path('products/', include('products.urls')),
+    # path('orders/', include('orders.urls')),
+    path("api/auth/", include("djoser.urls.authtoken")),
+    path(
+        "auth/users/activation/<uid>/<token>/",
+        activation_redirect_view,
+        name="user-activation-redirect",
+    ),
+    path("api/", include("products.urls")),
+    path("api/", include("basket.urls")),
+    path("api/", include("orders.urls")),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

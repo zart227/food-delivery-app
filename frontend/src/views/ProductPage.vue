@@ -1,138 +1,165 @@
-<!-- <template>
-  <div class="product-page" v-if="product">
-    <h1>{{ product.title }}</h1>
-    <img :src="product.imageSource" :alt="product.title" class="product-image">
-    <p>{{ product.description }}</p>
-    <p>{{ product.price }} ₽</p>
-    <button @click="addToCart">Добавить в корзину</button>
-    <router-link to="/basket">Перейти в корзину</router-link>
-  </div>
-  <div v-else>
-    <p>Loading...</p>
-  </div>
-</template> -->
-
 <template>
   <div class="wrapper">
-      <HeaderComponent is-item title="" />
-      <div class="container item">
-          <div class="item__img">
-              <img class="item__ipreview" :src="product.imageSource" alt="">
-          </div>
-          <div class="item__descr">
-              <h2 class="item__title">{{ product.title }}</h2>
-              <p class="item__description">{{ product.description }}</p>
-              <div class="item__footer">
-                <span class="item__price">{{ product.price.toLocaleString() }} ₽</span>
-                <ButtonComponent is-good-footer text-show button-text="В корзину"  @click="addToCart" />
-              </div>
-            </div>
+    <!-- <HeaderProduct is-item title="" /> -->
+    <div class="header__wrapper">
+      <HeaderComponent is-product show-cart-info />
+    </div>
+
+    <!-- Контент страницы -->
+    <div v-if="product" class="container item">
+      <div class="item__img">
+        <img class="item__ipreview" :src="product.image" alt="" />
       </div>
+      <div class="item__descr">
+        <h2 class="item__title">{{ product.title }}</h2>
+        <p class="item__description">{{ product.description }}</p>
+        <div class="item__footer">
+          <span class="item__price"
+            >{{ product.price.toLocaleString() }} ₽</span
+          >
+          <ButtonComponent
+            is-good-footer
+            text-show
+            button-text="В корзину"
+            @click="addToCart"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <p>Загрузка продукта...</p>
+    </div>
   </div>
 </template>
 
 <script>
-
 import { onBeforeMount, computed } from 'vue'
+// import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { useGoodsStore } from '@/stores/goods'
+import { useProductsStore } from '@/stores/products'
 import { useBasketStore } from '@/stores/basket'
+// import HeaderProduct from '@/components/blocks/HeaderProduct.vue'
 import HeaderComponent from '@/components/blocks/HeaderComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'ProductPage',
   components: {
     ButtonComponent,
-    HeaderComponent
+    // HeaderProduct,
+    HeaderComponent,
+    // FwbToast,
   },
-  setup () {
+  setup() {
     const route = useRoute()
-    const goodsStore = useGoodsStore()
+    const productsStore = useProductsStore()
     const basketStore = useBasketStore()
+    const toast = useToast()
 
-    // Вычисляемые свойства для данных товара
-    const product = computed(() => goodsStore.getProductItem)
+    const product = computed(() => productsStore.getProductItem)
 
-    // Загружаем данные товара при монтировании
-    onBeforeMount(() => {
-      goodsStore.setProductItem(route.params.id)
+    // Состояние для уведомления
+    // const alertMessage = ref('')
+    // const showAlert = ref(false)
+
+    onBeforeMount(async () => {
+      if (!productsStore.getProductList.length) {
+        try {
+          await productsStore.fetchAllProducts() // Загрузка продуктов, если их ещё нет
+        } catch (error) {
+          console.error('Ошибка загрузки списка продуктов:', error)
+          toast.error('Ошибка загрузки списка продуктов!')
+        }
+      }
+      productsStore.setProductItem(route.params.id) // Устанавливаем текущий продукт
     })
-
-    // Добавление товара в корзину
-    const addToCart = () => {
+    const addToCart = async () => {
       if (product.value) {
-        basketStore.addGoodInBasket(product.value.id)
+        try {
+          await basketStore.addGoodInBasket(product.value.id)
+          toast.success('Товар добавлен в корзину!')
+        } catch (error) {
+          toast.error('Ошибка добавления товара в корзину!')
+          console.error('Ошибка добавления товара в корзину:', error)
+        }
       }
     }
+
     return {
       product,
-      addToCart
+      addToCart,
+      // alertMessage,
+      // showAlert,
     }
-  }
+  },
 }
-
 </script>
 
 <style lang="scss" scoped>
 .wrapper {
-    background-image: url(../assets/img/bgItem.png);
-    background-size: cover;
-    // background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
-    color: #fff;
+  background-image: url(../assets/img/bgItem.png);
+  background-size: cover;
+  // background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  color: #fff;
 }
 
-:deep(.header) {
-    background-color: transparent;
-    // max-width: 1304px;
+.header__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+// :deep(.header) {
+//   background-color: transparent;
+//   // max-width: 1304px;
+// }
 
 .item {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: auto;
+
+  &__ipreview {
+    width: 501px;
+    height: 503px;
+  }
+
+  &__descr {
+    padding: 60px 10px 40px 150px;
+  }
+
+  &__title {
+    font-size: 30px;
+    font-family: Montserrat;
+    font-weight: 500;
+    margin-bottom: 46px;
+    color: #d58c51;
+  }
+
+  &__description {
+    font-size: 14px;
+    font-family: Montserrat;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }
+
+  &__price {
+    font-size: 23px;
+    font-family: Montserrat;
+    font-weight: 500;
+    padding-right: 137px;
+  }
+
+  &__footer {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    overflow: auto;
-
-    &__ipreview {
-      width: 501px;
-      height: 503px;
-    }
-
-    &__descr {
-      padding: 60px 10px 40px 150px;
-    }
-
-    &__title {
-      font-size: 30px;
-      font-family: Montserrat;
-      font-weight: 500;
-      margin-bottom: 46px;
-      color: #D58C51;
-    }
-
-    &__description {
-      font-size: 14px;
-      font-family: Montserrat;
-      font-weight: 400;
-      margin-bottom: 30px;
-    }
-
-    &__price {
-      font-size: 23px;
-      font-family: Montserrat;
-      font-weight: 500;
-      padding-right: 137px;
-    }
-
-    &__footer {
-      display: flex;
-      align-items: center;
-      // justify-content: space-between;
-      margin-top: 34px;
-      margin-bottom: 30px;
-    }
-
+    align-items: center;
+    // justify-content: space-between;
+    margin-top: 34px;
+    margin-bottom: 30px;
+  }
 }
 </style>

@@ -21,12 +21,6 @@ venv/
 env/
 .virtualenv/
 
-# IDEs and Editors
-.idea/
-.vscode/
-*.swp
-*.swo
-
 # macOS
 .DS_Store
 .AppleDouble
