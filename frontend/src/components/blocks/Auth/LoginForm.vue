@@ -60,12 +60,13 @@ export default {
 
         // Загрузка корзины после успешной авторизации
         await basketStore.fetchUserBasket();
-
+        toast.success('Вы успешно вошли в аккаунт!');
         // Перенаправляем на главную страницу
         this.$router.push('/')
       } catch (error) {
         if (error.response && error.response.status === 401) {
           this.usernameError = 'Неправильный username или пароль'
+          toast.error('Неправильный username или пароль')
         } else {
           console.error('Ошибка авторизации:', error)
           toast.error('Произошла ошибка. Попробуйте позже.')

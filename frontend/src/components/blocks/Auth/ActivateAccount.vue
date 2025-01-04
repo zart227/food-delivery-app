@@ -48,6 +48,7 @@
 
 <script>
 import api from '../../../api/axios'
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'ActivateAccount',
@@ -64,6 +65,12 @@ export default {
     },
   },
   emits: ['switch'], // Добавляем switch в emits
+  setup() {
+    const toast = useToast()
+    return {
+      toast,
+    }
+  },
   data() {
     return {
       successMessage: '',
@@ -82,13 +89,16 @@ export default {
           token: this.token,
         })
         this.successMessage = 'Аккаунт успешно активирован!'
+        this.toast.success('Аккаунт успешно активирован!')
         this.errorMessage = ''
         this.startRedirectCountdown()
       } catch (error) {
         if (error.response && error.response.status === 403) {
           this.errorMessage = 'Аккаунт уже активирован. Вы можете войти.'
+          this.toast.error('Аккаунт уже активирован. Вы можете войти.')
           this.startRedirectCountdown()
         } else {
+          this.toast.error('Произошла ошибка. Попробуйте позже.')
           this.errorMessage = 'Ошибка активации аккаунта. Попробуйте позже.'
         }
         this.successMessage = ''
@@ -101,8 +111,10 @@ export default {
         await api.post('/auth/users/resend_activation/', {
           email: localStorage.getItem('email'),
         })
+        this.toast.success('Письмо успешно отправлено. Проверьте вашу почту.')
         this.successMessage = 'Письмо успешно отправлено. Проверьте вашу почту.'
       } catch {
+        this.toast.error('Произошла ошибка. Попробуйте позже.')
         this.errorMessage =
           'Не удалось отправить письмо повторно. Попробуйте позже.'
       }

@@ -16,6 +16,7 @@
   <script>
   import InputField from '../../ui/InputField.vue';
   import api from '../../../api/axios';
+  import { useToast } from 'vue-toastification';
   
   export default {
     name: 'ForgotPasswordForm',
@@ -29,12 +30,16 @@
     },
     methods: {
       async handleSubmit() {
+        const toast = useToast();
+
         this.emailError = '';
         try {
           await api.post('/auth/users/reset_password/', { email: this.email });
-          alert('Инструкция по восстановлению отправлена на вашу почту.');
+          toast.success('Инструкция по восстановлению отправлена на вашу почту.');
+          //alert('Инструкция по восстановлению отправлена на вашу почту.');
         } catch {
           this.emailError = 'Ошибка восстановления пароля';
+          toast.error('Произошла ошибка. Попробуйте позже.');
         }
       },
     },

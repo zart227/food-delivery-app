@@ -47,6 +47,7 @@ import ButtonComponent from '../ui/ButtonComponent.vue'
 import { useBasketStore } from '@/stores/basket'
 import { useAuthStore } from '@/stores/auth'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
 
 
 export default {
@@ -89,7 +90,7 @@ export default {
     const store = useBasketStore()
     const authStore = useAuthStore()
     const router = useRouter()
-
+    const toast = useToast()
 
     // Загрузка корзины при монтировании компонента
     onMounted(async () => {
@@ -122,6 +123,7 @@ export default {
       try {
         await authStore.logoutUser()
       } catch (error) {
+        toast.error('Произошла ошибка при выходе:', error)
         console.error('Ошибка при выходе:', error)
       }
     }
@@ -133,6 +135,7 @@ export default {
       goBack,
       handleLogout,
       router,
+      toast,
     }
   },
   computed: {

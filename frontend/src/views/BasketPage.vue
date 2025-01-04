@@ -27,6 +27,7 @@ import MainBasket from '@/components/blocks/MainBasket.vue'
 import FooterBasket from '@/components/blocks/FooterBasket.vue'
 import { onBeforeMount } from 'vue'
 import { useBasketStore } from '@/stores/basket'
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'BasketPage',
@@ -38,11 +39,13 @@ export default {
   props: {},
   setup() {
     const basketStore = useBasketStore()
+    const toast = useToast()
 
     onBeforeMount(async () => {
       try {
         await basketStore.fetchUserBasket()
       } catch (error) {
+        toast.error('Произошла ошибка загрузки корзины!')
         console.error('Ошибка загрузки корзины:', error)
       }
     })

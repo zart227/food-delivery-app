@@ -31,6 +31,7 @@
 
 <script>
 import api from '../../../api/axios'
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'ActivationPending',
@@ -44,13 +45,16 @@ export default {
   },
   methods: {
     async resendActivation() {
+      const toast = useToast()
       this.successMessage = ''
       this.errorMessage = ''
       try {
         await api.post('/auth/users/resend_activation/', { email: this.email })
+        toast.success('Письмо успешно отправлено. Проверьте вашу почту.')
         this.successMessage = 'Письмо успешно отправлено. Проверьте вашу почту.'
       } catch {
         this.errorMessage = 'Не удалось отправить письмо. Попробуйте позже.'
+        toast.error('Произошла ошибка. Попробуйте позже.')
       }
     },
   },

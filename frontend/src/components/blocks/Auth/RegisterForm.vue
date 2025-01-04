@@ -44,6 +44,7 @@
 import InputField from '../../ui/InputField.vue'
 import CheckboxField from '../../ui/CheckboxField.vue'
 import api from '../../../api/axios'
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'RegisterForm',
@@ -61,6 +62,12 @@ export default {
     },
   },
   emits: ['switch', 'success'],
+  setup() {
+    const toast = useToast()
+    return {
+      toast,
+    }
+  },
   data() {
     return {
       form: { ...this.initialForm },
@@ -88,6 +95,7 @@ export default {
           re_password: this.form.confirmPassword,
         })
 
+        this.toast.success('Регистрация успешна! Проверьте почту для подтверждения аккаунта.')
         this.$emit(
           'success',
           'Регистрация успешна! Проверьте почту для подтверждения аккаунта.',
@@ -96,6 +104,7 @@ export default {
         if (error.response && error.response.data) {
           this.processBackendErrors(error.response.data)
         } else {
+          this.toast.error('Произошла ошибка при регистрации.')
           console.error('Ошибка регистрации:', error)
         }
       }
@@ -104,22 +113,26 @@ export default {
       let isValid = true
 
       if (this.form.username.length < 4) {
+        this.toast.error('Имя пользователя должно содержать не менее 4 символов.')
         this.errors.username =
           'Имя пользователя должно содержать не менее 4 символов.'
         isValid = false
       }
 
       if (!this.form.email.includes('@')) {
+        this.toast.error('Введите корректный адрес электронной почты.')
         this.errors.email = 'Введите корректный адрес электронной почты.'
         isValid = false
       }
 
       if (this.form.password.length < 8) {
+        this.toast.error('Пароль должен содержать не менее 8 символов.')
         this.errors.password = 'Пароль должен содержать не менее 8 символов.'
         isValid = false
       }
 
       if (this.form.password !== this.form.confirmPassword) {
+        this.toast.error('Пароли не совпадают.')
         this.errors.confirmPassword = 'Пароли не совпадают.'
         isValid = false
       }
@@ -137,11 +150,14 @@ export default {
     processBackendErrors(errors) {
       for (const key in errors) {
         if (key === 'email') {
+          this.toast.error('Пользователь с такой электронной почтой уже существует.')
           this.errors.email =
             'Пользователь с такой электронной почтой уже существует.'
         } else if (key === 'username') {
+          this.toast.error('Пользователь с таким именем уже существует.')
           this.errors.username = 'Пользователь с таким именем уже существует.'
         } else if (this.errors[key] !== undefined) {
+          this.toast.error(errors[key].join('; '))
           this.errors[key] = errors[key].join('; ')
         }
       }

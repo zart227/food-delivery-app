@@ -63,6 +63,7 @@
           this.$emit('switch', 'login')
 
         } catch {
+          toast.error('Произошла ошибка. Попробуйте позже.');
           this.errorMessage =
             'Ошибка при сбросе пароля. Проверьте данные или попробуйте позже.';
           this.successMessage = '';
