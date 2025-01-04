@@ -3,10 +3,12 @@ import api from '../api/axios' // Ваш настроенный axios instance
 // Авторизация (логин)
 export async function login(username, password) {
   try {
+    console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
     const response = await api.post('/auth/jwt/create/', { username, password })
     console.log('Успешная авторизация')
     return response.data
   } catch (error) {
+    console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
     throw error.response?.data || error.message
   }
 }

@@ -11,10 +11,13 @@ __pycache__/
 # Django
 *.log
 db.sqlite3
-media/
-staticfiles/
+media/*
+static/
 .env
-.env.*
+# .env.*
+
+# Но не игнорировать media/products/
+!/media/products
 
 # Virtual environments
 venv/

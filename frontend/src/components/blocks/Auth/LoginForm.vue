@@ -28,6 +28,8 @@
 import InputField from '../../ui/InputField.vue'
 import { useBasketStore } from '@/stores/basket'
 import { useAuthStore } from '@/stores/auth'
+import { useToast } from 'vue-toastification';
+
 
 export default {
   name: 'LoginForm',
@@ -48,9 +50,12 @@ export default {
 
       const authStore = useAuthStore()
       const basketStore = useBasketStore()
+      const toast = useToast()
 
       try {
         // Авторизация пользователя
+        console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+
         await authStore.loginUser(this.username, this.password);
 
         // Загрузка корзины после успешной авторизации
@@ -63,6 +68,8 @@ export default {
           this.usernameError = 'Неправильный username или пароль'
         } else {
           console.error('Ошибка авторизации:', error)
+          toast.error('Произошла ошибка. Попробуйте позже.')
+          //toast.message('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL)
           this.usernameError = 'Произошла ошибка. Попробуйте позже.'
         }
       }

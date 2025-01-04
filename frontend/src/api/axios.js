@@ -1,11 +1,14 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api', // Замените на адрес вашего бэка
+  baseURL: import.meta.env.VITE_API_BASE_URL, 
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Лог для проверки baseURL
+console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
 
 // Добавление токена в заголовки
 api.interceptors.request.use((config) => {

@@ -17,35 +17,23 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.conf.urls.static import static
 
 
-def activation_redirect_view(request, uid, token):
-    # frontend_url = f"http://127.0.0.1:5173/auth/activate?uid={uid}&token={token}"
-    frontend_url = (
-        f"http://127.0.0.1:5173/auth?mode=activateAccount&uid={uid}&token={token}"
-    )
-
-    return HttpResponseRedirect(frontend_url)
-
-
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/auth/", include("djoser.urls")),
-    path("api/auth/", include("djoser.urls.jwt")),
-    # path('products/', include('products.urls')),
-    # path('orders/', include('orders.urls')),
-    path("api/auth/", include("djoser.urls.authtoken")),
-    path(
-        "auth/users/activation/<uid>/<token>/",
-        activation_redirect_view,
-        name="user-activation-redirect",
-    ),
-    path("api/", include("products.urls")),
-    path("api/", include("basket.urls")),
-    path("api/", include("orders.urls")),
+        path("api/", include([
+        path("auth/", include("djoser.urls")),
+        path("auth/", include("djoser.urls.jwt")),
+        path("auth/", include("djoser.urls.authtoken")),
+        path("", include("products.urls")),
+        path("", include("basket.urls")),
+        path("", include("orders.urls")),
+    ])),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Маршруты для статических файлов и медиа
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

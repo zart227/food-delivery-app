@@ -12,8 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import os
+# import os
 from decouple import config
+from corsheaders.defaults import default_headers
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-y3(nvh1)1ji+j%t_2yxvsya2o!ui=gb^k)-l(47q2ih-84%3gw'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 
 # Application definition
@@ -82,12 +83,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
-
-# Celery settings
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
-# Настройки backend для результатов задач
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# Celery
+CELERY_BROKER_URL = config('CELERY_BROKER_URL', default='redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
 
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
@@ -95,12 +93,12 @@ CELERY_TASK_SERIALIZER = 'json'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     # 'backend.middleware.LogRequestMiddleware',
 ]
 
@@ -130,11 +128,20 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB'),
+        'USER': config('POSTGRES_USER'),
+        'PASSWORD': config('POSTGRES_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
+# print("POSTGRES_DB:", config('POSTGRES_DB'))
+# print("POSTGRES_USER:", config('POSTGRES_USER'))
+# print("POSTGRES_PASSWORD:", config('POSTGRES_PASSWORD'))
+# print("DB_HOST:", config('DB_HOST'))
+# print("DB_PORT:", config('DB_PORT'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -191,6 +198,7 @@ JAZZMIN_UI_TWEAKS = {
     "dark_mode_theme": "darkly",
 }
 
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8081')
 
 DJOSER = {
     "TOKEN_MODEL": None,
@@ -199,9 +207,9 @@ DJOSER = {
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'PASSWORD_RESET_CONFIRM_URL': '#/password/reset/confirm/{uid}/{token}',
-    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
-    'ACTIVATION_URL': 'auth/users/activation/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': f'{FRONTEND_URL}/auth/username/reset/confirm/{{uid}}/{{token}}',
+    'PASSWORD_RESET_CONFIRM_URL': f'{FRONTEND_URL}/auth?mode=resetPasswordConfirm&uid={{uid}}&token={{token}}',
+    'ACTIVATION_URL': f'{FRONTEND_URL}/auth?mode=activateAccount&uid={{uid}}&token={{token}}',
     'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserCreateSerializer',
@@ -220,10 +228,26 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=True)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 
-MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
+# MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 
-CORS_ALLOW_ALL_ORIGINS = True  # Разрешить доступ с любых доменов
+# CORS_ALLOW_ALL_ORIGINS = True  # Разрешить доступ с любых доменов
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8081",  # Ваш Nginx для фронтенда
+    "http://127.0.0.1:8081",  # Локальный IP для фронтенда
+    "http://nginx",
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8081",
+    "http://127.0.0.1:8081",
+    "http://nginx",
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "X-CSRFToken",
+]
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),  # Время жизни access-токена
@@ -255,4 +279,5 @@ SIMPLE_JWT = {
 # }
 
 
-SITE_URL = os.getenv('SITE_URL', 'http://127.0.0.1:8000')
+# SITE URL
+SITE_URL = config('SITE_URL', default='http://127.0.0.1:8081')
