@@ -1,0 +1,45 @@
+{% load i18n %}
+
+{% block subject %}
+{% blocktrans %}Активация аккаунта{% endblocktrans %}
+{% endblock subject %}
+
+{% block text_body %}
+{% blocktrans %}Вы получили это письмо, потому что зарегистрировались на сайте {{ site_name }} и вам необходимо активировать свой аккаунт.{% endblocktrans %}
+
+{% trans "Перейдите по следующей ссылке для активации аккаунта:" %}
+{{ protocol }}://{{ domain }}/auth/activate/{{ uid }}/{{ token }}
+
+{% trans "Спасибо, что используете наш сайт!" %}
+
+{% blocktrans %}Команда {{ site_name }}{% endblocktrans %}
+{% endblock text_body %}
+
+{% block html_body %}
+<div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+        <div style="background-color: #4CAF50; color: white; padding: 20px; text-align: center;">
+            <h1 style="margin: 0;">{{ site_name }}</h1>
+        </div>
+        <div style="padding: 20px;">
+            <p style="font-size: 16px; color: #333;">
+                {% blocktrans %}Вы получили это письмо, потому что зарегистрировались на сайте {{ site_name }} и вам необходимо активировать свой аккаунт.{% endblocktrans %}
+            </p>
+            <p style="font-size: 16px; color: #333;">
+                {% trans "Перейдите по следующей ссылке для активации аккаунта:" %}
+            </p>
+            <p style="text-align: center; margin: 20px 0;">
+                <a href="{{ protocol }}://{{ domain }}/auth/activate/{{ uid }}/{{ token }}" style="background-color: #4CAF50; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; display: inline-block;">
+                    {% trans "Активировать аккаунт" %}
+                </a>
+            </p>
+            <p style="font-size: 16px; color: #333;">
+                {% trans "Спасибо, что используете наш сайт!" %}
+            </p>
+            <p style="font-size: 16px; color: #333; font-weight: bold;">
+                {% blocktrans %}Команда {{ site_name }}{% endblocktrans %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock html_body %}

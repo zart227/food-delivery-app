@@ -28,7 +28,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: celery
-    command: celery -A backend worker --loglevel=info
+    environment:
+      - SERVICE_NAME=celery
+    command: []
     depends_on:
       - redis
       - django
@@ -42,7 +44,9 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: celery-beat
-    command: celery -A backend beat --loglevel=info
+    environment:
+      - SERVICE_NAME=celery-beat
+    command: []
     depends_on:
       - redis
       - django
@@ -56,6 +60,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: django
+    environment:
+      - SERVICE_NAME=django
     env_file:
       - .env
     depends_on:

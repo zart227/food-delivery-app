@@ -1,5 +1,5 @@
 # Stage 1: Build frontend
-FROM node:18-alpine as build-stage
+FROM node:18-alpine AS build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN yarn install
@@ -7,7 +7,7 @@ COPY . .
 RUN yarn build
 
 # Stage 2: Nginx for serving Vue
-FROM nginx:stable-alpine as vue-server
+FROM nginx:stable-alpine AS vue-server
 WORKDIR /usr/share/nginx/html
 
 # Копирование собранного фронта

@@ -107,7 +107,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -207,14 +207,19 @@ DJOSER = {
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'USERNAME_RESET_CONFIRM_URL': f'{FRONTEND_URL}/auth/username/reset/confirm/{{uid}}/{{token}}',
-    'PASSWORD_RESET_CONFIRM_URL': f'{FRONTEND_URL}/auth?mode=resetPasswordConfirm&uid={{uid}}&token={{token}}',
-    'ACTIVATION_URL': f'{FRONTEND_URL}/auth?mode=activateAccount&uid={{uid}}&token={{token}}',
+    'USERNAME_RESET_CONFIRM_URL': 'auth/username/reset/confirm/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth?mode=resetPasswordConfirm&uid={uid}&token={token}',
+    'ACTIVATION_URL': 'auth?mode=activateAccount&uid={uid}&token={token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserCreateSerializer',
         'user': 'users.serializers.CustomUserCreateSerializer',
-    }
+    },
+    "EMAIL": {
+        "activation": "users.email.ActivationEmail",
+        "password_reset": "users.email.PasswordResetEmail",
+        "password_changed_confirmation": "users.email.PasswordChangedEmail",
+    },
 }
 
 AUTH_USER_MODEL = 'users.User'
@@ -281,3 +286,4 @@ SIMPLE_JWT = {
 
 # SITE URL
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8081')
+DOMAIN = config('DOMAIN', default='127.0.0.1:8081')

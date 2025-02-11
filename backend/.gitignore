@@ -58,12 +58,12 @@ coverage.xml
 # Docker
 *.pid
 *.seed
-*.lock
+# *.lock
 build/
 dist/
 *.tar.gz
 *.whl
-.dockerignore
+# .dockerignore
 .docker/
 
 # MyPy

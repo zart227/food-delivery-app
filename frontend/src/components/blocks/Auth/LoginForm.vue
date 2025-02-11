@@ -14,7 +14,7 @@
       placeholder="Введите ваш пароль"
       :error="passwordError"
     />
-    <button class="auth-form__submit">Войти</button>
+    <button class="auth-form__submit" type="button" @click="handleSubmit">Войти</button>
     <span class="auth-form__link" @click="$emit('switch', 'forgotPassword')">
       Забыли пароль?
     </span>
@@ -54,7 +54,7 @@ export default {
 
       try {
         // Авторизация пользователя
-        console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
+        //console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
 
         await authStore.loginUser(this.username, this.password);
 
@@ -65,8 +65,9 @@ export default {
         this.$router.push('/')
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          this.usernameError = 'Неправильный username или пароль'
-          toast.error('Неправильный username или пароль')
+          this.usernameError = 'Неправильный логин или пароль'
+          alert('Неправильный логин или пароль');
+          toast.error('Неправильный логин или пароль')
         } else {
           console.error('Ошибка авторизации:', error)
           toast.error('Произошла ошибка. Попробуйте позже.')
