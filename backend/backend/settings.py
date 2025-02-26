@@ -55,6 +55,8 @@ INSTALLED_APPS = [
     'admin_soft',
     'corsheaders',
     "rest_framework_simplejwt",
+    'drf_yasg',
+    'channels',
 
     # Custom apps
     'users',
@@ -90,7 +92,37 @@ CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND', default='redis://localho
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 
+# Настройки кеширования
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': config('REDIS_URL', default='redis://redis:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
+            'CONNECTION_POOL_CLASS_KWARGS': {
+                'max_connections': 50,
+                'timeout': 20,
+            },
+            'MAX_CONNECTIONS': 1000,
+            'PICKLE_VERSION': -1,
+        },
+        'KEY_PREFIX': 'food_delivery',  # Префикс для ключей кеша
+    }
+}
+
+# Использовать Redis для хранения сессий
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+SESSION_CACHE_ALIAS = 'default'
+
+# Настройки кеширования страниц
+CACHE_MIDDLEWARE_SECONDS = 300  # Время кеширования страниц (5 минут)
+CACHE_MIDDLEWARE_KEY_PREFIX = 'food_delivery_cache'
+
+# Добавляем middleware для кеширования
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',  # Должен быть первым
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -99,6 +131,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',  # Должен быть последним
     # 'backend.middleware.LogRequestMiddleware',
 ]
 
@@ -238,9 +271,10 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 # CORS_ALLOW_ALL_ORIGINS = True  # Разрешить доступ с любых доменов
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",  # Ваш Nginx для фронтенда
-    "http://127.0.0.1:8081",  # Локальный IP для фронтенда
+    "http://localhost:8081",
+    "http://127.0.0.1:8081",
     "http://nginx",
+    "http://localhost:8000",  # Добавьте этот домен для Swagger UI
 ]
 
 
@@ -262,28 +296,61 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'handlers': {
-#         'console': {
-#             'class': 'logging.StreamHandler',
-#         },
-#     },
-#     'loggers': {
-#         'django': {
-#             'handlers': ['console'],
-#             'level': 'INFO',  # Уровень логирования
-#         },
-#         'your_project': {  # Логгер для вашего кода (например, middleware)
-#             'handlers': ['console'],
-#             'level': 'INFO',
-#             'propagate': False,
-#         },
-#     },
-# }
+CACHES_MIDDLEWARE_SECONDS = 300
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.core.cache': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        }
+    }
+}
 
 # SITE URL
 SITE_URL = config('SITE_URL', default='http://127.0.0.1:8081')
 DOMAIN = config('DOMAIN', default='127.0.0.1:8081')
+
+# Swagger settings
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'JSON_EDITOR': True,
+    'SUPPORTED_SUBMIT_METHODS': ['get', 'post', 'put', 'delete', 'patch'],
+    'OPERATIONS_SORTER': 'method',
+}
+
+# Добавляем настройки для drf-yasg
+REDOC_SETTINGS = {
+   'LAZY_RENDERING': True,
+   'HIDE_HOSTNAME': False,
+}
+
+# Channels
+ASGI_APPLICATION = 'backend.asgi.application'
+
+# Настройки Channels
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [(config('REDIS_HOST', default='redis'), 6379)],
+        },
+    },
+}
+
+# WebSocket настройки
+WEBSOCKET_URL = '/ws/'

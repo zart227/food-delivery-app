@@ -33,7 +33,14 @@ fi
 case "$SERVICE_NAME" in
     "django")
         echo "🚀 Запуск Gunicorn..."
-        gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --chdir /app &
+        # Добавление автоматической перезагрузки при изменениях
+        if [ "$ENVIRONMENT" = "development" ]; then
+            echo "🚀 Запуск в режиме разработки..."
+            watchmedo auto-restart --directory=./ --pattern=*.py --recursive -- gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --chdir /app &
+        else
+            echo "🚀 Запуск в production режиме..."
+            gunicorn backend.wsgi:application --bind 0.0.0.0:8000 --workers 3 --chdir /app &
+        fi
         echo "🚀 Запуск Nginx..."
         nginx -g 'daemon off;'
         ;;

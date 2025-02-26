@@ -1,0 +1,113 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    env_file:
+      - .env
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5      
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: dev-stage
+    container_name: celery
+    environment:
+      - SERVICE_NAME=celery
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - redis
+      - django
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: dev-stage
+    container_name: celery-beat
+    environment:
+      - SERVICE_NAME=celery-beat
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - redis
+      - django
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  django:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: dev-stage
+    container_name: django
+    environment:
+      - SERVICE_NAME=django
+    volumes:
+      - ./backend:/app
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev-stage
+    container_name: frontend
+    environment:
+      - VITE_API_BASE_URL=/api
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    expose:
+      - "3000"
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "8081:80"
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - django
+      - frontend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge 

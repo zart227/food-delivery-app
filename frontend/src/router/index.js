@@ -41,6 +41,15 @@ const routes = [
     name: 'Checkout',
     component: CheckoutPage,
   },
+  {
+    path: '/orders',
+    name: 'Orders',
+    component: () => import('@/views/OrdersPage.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Мои заказы'
+    }
+  }
 ]
 
 // создает экземпляр маршрутизатора, который определяет, какие компоненты должны быть отображены

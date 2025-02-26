@@ -86,8 +86,9 @@
 
 <script>
 import HeaderComponent from '@/components/blocks/HeaderComponent.vue'
-import { computed } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useBasketStore } from '@/stores/basket'
+import { useOrdersStore } from '@/stores/orders'
 import { createOrder } from '@/services/orderService'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
@@ -98,8 +99,19 @@ export default {
   },
   setup() {
     const basketStore = useBasketStore()
+    const ordersStore = useOrdersStore()
     const router = useRouter()
     const toast = useToast()
+
+    // Инициализация WebSocket при монтировании компонента
+    onMounted(() => {
+      ordersStore.initWebSocket()
+    })
+
+    // Отключение WebSocket при размонтировании
+    onUnmounted(() => {
+      ordersStore.clearOrdersData()
+    })
 
     // Данные товаров в корзине
     const cartItems = computed(() => basketStore.getBasketGoods)
@@ -116,6 +128,7 @@ export default {
       cartItems,
       totalPrice,
       basketStore,
+      ordersStore,
       router,
       toast,
     }
@@ -136,7 +149,6 @@ export default {
   methods: {
     async submitOrder() {
       try {
-        // Отправка данных на сервер
         const orderData = {
           ...this.orderDetails,
           items: this.cartItems.map((item) => ({
@@ -146,20 +158,18 @@ export default {
           })),
           total_price: this.totalPrice,
         }
-        await createOrder(orderData)
 
-        // Уведомление об успешном оформлении
-        this.toast.success('Ваш заказ успешно оформлен!')
+        // Используем store для создания заказа
+        await this.ordersStore.createNewOrder(orderData)
 
         // Очистка корзины
         this.basketStore.setBasket([])
 
-        // Переход на главную страницу
-        this.router.push('/')
+        // Переход на страницу заказов
+        this.router.push('/orders')
       } catch (error) {
         this.errorMessage = 'Не удалось оформить заказ. Попробуйте снова.'
         console.error('Ошибка оформления заказа:', error)
-        this.toast.error('Ошибка оформления заказа')
       }
     },
   },

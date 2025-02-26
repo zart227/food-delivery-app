@@ -1,3 +1,11 @@
+# Stage 0: Development stage
+FROM node:18-alpine AS dev-stage
+WORKDIR /app
+COPY package*.json ./
+RUN yarn install
+# Не копируем исходники в dev-stage, они будут монтироваться через volume
+CMD ["yarn", "dev", "--host", "0.0.0.0", "--port", "3000"]
+
 # Stage 1: Build frontend
 FROM node:18-alpine AS build-stage
 WORKDIR /app
