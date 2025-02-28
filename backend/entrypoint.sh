@@ -11,6 +11,9 @@ if [ "$SERVICE_NAME" = "django" ]; then
     echo "🔄 Применение миграций..."
     python manage.py migrate
 
+    echo "📦 Сбор статических файлов..."
+    python manage.py collectstatic --noinput
+
     echo "🔍 Проверка наличия продуктов в базе..."
     PRODUCTS_COUNT=$(python manage.py shell <<EOF
 from products.models import Product

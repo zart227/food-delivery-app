@@ -36,7 +36,7 @@ services:
     volumes:
       - ./backend:/app
       - django_media:/app/media
-      - django_static:/app/static
+      - ./backend/static:/app/static
     env_file:
       - .env
     depends_on:
@@ -117,7 +117,7 @@ services:
     volumes:
       - ./nginx/nginx.dev.conf:/etc/nginx/conf.d/default.conf:ro
       - django_media:/app/media:ro
-      - django_static:/app/static:ro
+      - ./backend/static:/app/static:ro
       - ./nginx/logs:/var/log/nginx
     depends_on:
       - django
@@ -191,7 +191,6 @@ networks:
 
 volumes:
   django_media:
-  django_static:
   prometheus_data:
   grafana_data:
   redis_data: 

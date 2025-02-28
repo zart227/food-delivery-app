@@ -225,15 +225,90 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 JAZZMIN_SETTINGS = {
     "site_title": "Food Delivery Admin",
     "site_header": "Food Delivery",
-    "welcome_sign": "Welcome to Food Delivery Admin",
+    "site_brand": "Food Delivery",
+    "welcome_sign": "Добро пожаловать в панель управления",
+    "copyright": "Food Delivery Ltd",
+    
     "topmenu_links": [
-        {"name": "Dashboard", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Главная", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"name": "Сайт", "url": "/", "new_window": True},
     ],
+
+    "usermenu_links": [
+        {"name": "Профиль", "url": "admin:auth_user_change", "icon": "fas fa-user"}
+    ],
+
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "users.User": "fas fa-user",
+        "auth.Group": "fas fa-users",
+        "admin.LogEntry": "fas fa-file",
+        "products.Category": "fas fa-list",
+        "products.Product": "fas fa-utensils",
+        "orders.Order": "fas fa-shopping-cart",
+        "orders.OrderItem": "fas fa-receipt",
+    },
+    
+    "order_with_respect_to": [
+        "products",
+        "orders",
+        "auth",
+    ],
+    
+    "custom_links": {
+        "orders": [{
+            "name": "Статистика заказов", 
+            "url": "admin:orders_order_changelist", 
+            "icon": "fas fa-chart-line"
+        }]
+    },
+    
+    "changeform_format": "horizontal_tabs",
+    "changeform_format_overrides": {
+        "auth.user": "collapsible",
+        "auth.group": "vertical_tabs",
+    },
+    
+    "language_chooser": False,
+    "show_ui_builder": True,
 }
 
 JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-dark",
+    "accent": "accent-primary",
+    "navbar": "navbar-dark",
+    "no_navbar_border": False,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-primary",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
     "theme": "darkly",
     "dark_mode_theme": "darkly",
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
 }
 
 FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:8081')
