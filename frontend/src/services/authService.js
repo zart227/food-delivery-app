@@ -1,4 +1,6 @@
 import api from '../api/axios' // Ваш настроенный axios instance
+import router from '../router' // Импортируем router
+import { setAuthTokens, getAuthToken, getRefreshToken, clearAuthTokens } from '../utils/cookies'
 
 // Авторизация (логин)
 export async function login(username, password) {
@@ -6,6 +8,8 @@ export async function login(username, password) {
     // console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
     const response = await api.post('/auth/jwt/create/', { username, password })
     console.log('Успешная авторизация')
+    const { access, refresh } = response.data
+    setAuthTokens(access, refresh)
     return response.data
   } catch (error) {
     // console.log('VITE_API_BASE_URL:', import.meta.env.VITE_API_BASE_URL);
@@ -16,13 +20,15 @@ export async function login(username, password) {
 // Обновление токена
 export async function refreshToken() {
   try {
-    const refresh = localStorage.getItem('refreshToken')
+    const refresh = getRefreshToken()
     if (!refresh) throw new Error('Refresh токен отсутствует')
 
     const response = await api.post('/auth/jwt/refresh/', { refresh })
-    localStorage.setItem('authToken', response.data.access)
-    return response.data.access
+    const { access } = response.data
+    setAuthTokens(access, refresh) // Обновляем только access token
+    return access
   } catch (error) {
+    clearAuthTokens()
     throw error.response?.data || error.message
   }
 }
@@ -31,9 +37,8 @@ export async function refreshToken() {
 export async function logout() {
   try {
     //await api.post('/auth/jwt/logout/')
-    localStorage.removeItem('authToken')
-    localStorage.removeItem('refreshToken')
-    window.location.href = '/auth' // Перенаправление на страницу авторизации
+    clearAuthTokens()
+    await router.push('/auth') // Используем Vue Router для навигации
   } catch (error) {
     console.error('Ошибка при выходе:', error)
   }
@@ -47,4 +52,9 @@ export async function verifyToken(token) {
   } catch {
     return false
   }
+}
+
+// Получение текущего токена
+export function getCurrentToken() {
+  return getAuthToken()
 }

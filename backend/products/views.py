@@ -69,12 +69,15 @@ class ProductDetailAPIView(CachedAPIView):
 
 
 class CategoryViewSet(ReadOnlyModelViewSet):
+    permission_classes = [AllowAny]
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'slug'
 
 
 class ProductViewSet(ReadOnlyModelViewSet):
+    permission_classes = [AllowAny]
+    authentication_classes = []  # Отключаем аутентификацию для этого ViewSet
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]

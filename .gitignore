@@ -10,3 +10,8 @@
 *.sw?
 **/*.env
 frontend/.env
+.cursorignore
+*.pptx
+# *.txt
+Шаблон *.txt
+

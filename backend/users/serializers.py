@@ -1,7 +1,5 @@
-from djoser.serializers import (
-    UserCreateSerializer as BaseUserCreateSerializer,
-    UserSerializer as BaseUserSerializer,
-)
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
+from djoser.serializers import UserSerializer as BaseUserSerializer
 from rest_framework import serializers
 from .models import User
 
@@ -9,23 +7,20 @@ from .models import User
 class UserCreateSerializer(BaseUserCreateSerializer):
     class Meta(BaseUserCreateSerializer.Meta):
         model = User
-        fields = ("id", "email", "username", "password")
+        fields = ('id', 'email', 'username', 'password', 'first_name', 'last_name')
 
 
-class UserSerializer(BaseUserSerializer):
+class CustomUserCreateSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
         model = User
-        fields = ("id", "email", "username", "is_active")
+        fields = ('id', 'email', 'username', 'first_name', 'last_name', 
+                 'phone', 'address', 'avatar', 'notification_preferences')
+        read_only_fields = ('id',)
 
 
-class CustomUserCreateSerializer(UserCreateSerializer):
-    class Meta(UserCreateSerializer.Meta):
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'password', 'roles', 'is_verified')
-
-    def validate_password(self, value):
-        if len(value) < 8:
-            raise serializers.ValidationError("Пароль должен содержать не менее 8 символов.")
-        if value.isnumeric():
-            raise serializers.ValidationError("Пароль не может быть полностью числовым.")
-        return value
+        fields = ('id', 'email', 'username', 'first_name', 'last_name',
+                 'phone', 'address', 'avatar', 'notification_preferences')
+        read_only_fields = ('id', 'username')

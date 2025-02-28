@@ -31,6 +31,13 @@
           />
         </router-link>
       </div>
+      <router-link to="/profile">
+        <ButtonComponent
+          font-icon="fa-solid fa-user"
+          is-basket-main
+          icon-show
+        />
+      </router-link>
       <ButtonComponent
         is-basket-footer
         text-show
@@ -122,8 +129,10 @@ export default {
     const handleLogout = async () => {
       try {
         await authStore.logoutUser()
+        toast.success('Вы успешно вышли из системы')
+        await router.push('/auth')
       } catch (error) {
-        toast.error('Произошла ошибка при выходе:', error)
+        toast.error('Произошла ошибка при выходе')
         console.error('Ошибка при выходе:', error)
       }
     }

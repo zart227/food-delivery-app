@@ -4,7 +4,10 @@ from djoser.signals import user_activated
 from .models import User, Role, UserRole
 from .tasks import send_welcome_email
 from djoser.email import ActivationEmail
+from django.contrib.auth import get_user_model
+from .email import WelcomeEmail
 
+User = get_user_model()
 
 @receiver(post_save, sender=User)
 def assign_default_role(sender, instance, created, **kwargs):
@@ -34,6 +37,6 @@ def send_welcome_email_after_activation(user, request, **kwargs):
     Отправляет приветственное письмо после активации аккаунта.
     """
     try:
-        send_welcome_email.delay(user.email)  # Celery задача
+        WelcomeEmail(context={"user": user}).send([user.email])
     except Exception as e:
-        print(f"Ошибка при запуске задачи отправки приветственного письма: {e}")
+        print(f"Ошибка при отправке приветственного письма: {e}")

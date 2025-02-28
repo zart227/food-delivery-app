@@ -1,0 +1,324 @@
+2025/02/28 02:43:07 [notice] 1#1: using the "epoll" event method
+2025/02/28 02:43:07 [notice] 1#1: nginx/1.26.3
+2025/02/28 02:43:07 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/02/28 02:43:07 [notice] 1#1: OS: Linux 5.15.167.4-microsoft-standard-WSL2
+2025/02/28 02:43:07 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/02/28 02:43:07 [notice] 1#1: start worker processes
+2025/02/28 02:43:07 [notice] 1#1: start worker process 21
+2025/02/28 02:43:07 [notice] 1#1: start worker process 22
+2025/02/28 02:43:07 [notice] 1#1: start worker process 23
+2025/02/28 02:43:07 [notice] 1#1: start worker process 24
+2025/02/28 02:43:07 [notice] 1#1: start worker process 25
+2025/02/28 02:43:07 [notice] 1#1: start worker process 26
+2025/02/28 02:43:07 [notice] 1#1: start worker process 27
+2025/02/28 02:43:07 [notice] 1#1: start worker process 28
+2025/02/28 02:43:07 [notice] 1#1: start worker process 29
+2025/02/28 02:43:07 [notice] 1#1: start worker process 30
+2025/02/28 02:43:07 [notice] 1#1: start worker process 31
+2025/02/28 02:43:07 [notice] 1#1: start worker process 32
+2025/02/28 02:46:34 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/02/28 02:46:34 [notice] 22#22: gracefully shutting down
+2025/02/28 02:46:34 [notice] 23#23: gracefully shutting down
+2025/02/28 02:46:34 [notice] 26#26: gracefully shutting down
+2025/02/28 02:46:34 [notice] 26#26: exiting
+2025/02/28 02:46:34 [notice] 24#24: gracefully shutting down
+2025/02/28 02:46:34 [notice] 25#25: gracefully shutting down
+2025/02/28 02:46:34 [notice] 23#23: exiting
+2025/02/28 02:46:34 [notice] 22#22: exiting
+2025/02/28 02:46:34 [notice] 26#26: exit
+2025/02/28 02:46:34 [notice] 22#22: exit
+2025/02/28 02:46:34 [notice] 23#23: exit
+2025/02/28 02:46:34 [notice] 21#21: gracefully shutting down
+2025/02/28 02:46:34 [notice] 32#32: gracefully shutting down
+2025/02/28 02:46:34 [notice] 24#24: exiting
+2025/02/28 02:46:34 [notice] 21#21: exiting
+2025/02/28 02:46:34 [notice] 32#32: exiting
+2025/02/28 02:46:34 [notice] 31#31: gracefully shutting down
+2025/02/28 02:46:34 [notice] 24#24: exit
+2025/02/28 02:46:34 [notice] 21#21: exit
+2025/02/28 02:46:34 [notice] 32#32: exit
+2025/02/28 02:46:34 [notice] 27#27: gracefully shutting down
+2025/02/28 02:46:34 [notice] 30#30: gracefully shutting down
+2025/02/28 02:46:34 [notice] 29#29: gracefully shutting down
+2025/02/28 02:46:34 [notice] 29#29: exiting
+2025/02/28 02:46:34 [notice] 31#31: exiting
+2025/02/28 02:46:34 [notice] 31#31: exit
+2025/02/28 02:46:34 [notice] 29#29: exit
+2025/02/28 02:46:34 [notice] 28#28: gracefully shutting down
+2025/02/28 02:46:34 [notice] 25#25: exiting
+2025/02/28 02:46:34 [notice] 25#25: exit
+2025/02/28 02:46:34 [notice] 27#27: exiting
+2025/02/28 02:46:34 [notice] 27#27: exit
+2025/02/28 02:46:34 [notice] 30#30: exiting
+2025/02/28 02:46:34 [notice] 30#30: exit
+2025/02/28 02:46:34 [notice] 28#28: exiting
+2025/02/28 02:46:34 [notice] 28#28: exit
+2025/02/28 02:46:34 [notice] 1#1: signal 17 (SIGCHLD) received from 26
+2025/02/28 02:46:34 [notice] 1#1: worker process 23 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 22 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 26 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 29 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 31 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 32 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:46:34 [notice] 1#1: signal 17 (SIGCHLD) received from 32
+2025/02/28 02:46:34 [notice] 1#1: signal 17 (SIGCHLD) received from 21
+2025/02/28 02:46:34 [notice] 1#1: worker process 21 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:46:34 [notice] 1#1: signal 17 (SIGCHLD) received from 28
+2025/02/28 02:46:34 [notice] 1#1: worker process 24 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 25 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: worker process 28 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:46:34 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2025/02/28 02:46:34 [notice] 1#1: worker process 30 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:46:34 [notice] 1#1: signal 17 (SIGCHLD) received from 27
+2025/02/28 02:46:34 [notice] 1#1: worker process 27 exited with code 0
+2025/02/28 02:46:34 [notice] 1#1: exit
+2025/02/28 02:47:15 [notice] 1#1: using the "epoll" event method
+2025/02/28 02:47:15 [notice] 1#1: nginx/1.26.3
+2025/02/28 02:47:15 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/02/28 02:47:15 [notice] 1#1: OS: Linux 5.15.167.4-microsoft-standard-WSL2
+2025/02/28 02:47:15 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/02/28 02:47:15 [notice] 1#1: start worker processes
+2025/02/28 02:47:15 [notice] 1#1: start worker process 21
+2025/02/28 02:47:15 [notice] 1#1: start worker process 22
+2025/02/28 02:47:15 [notice] 1#1: start worker process 23
+2025/02/28 02:47:15 [notice] 1#1: start worker process 24
+2025/02/28 02:47:15 [notice] 1#1: start worker process 25
+2025/02/28 02:47:15 [notice] 1#1: start worker process 26
+2025/02/28 02:47:15 [notice] 1#1: start worker process 27
+2025/02/28 02:47:15 [notice] 1#1: start worker process 28
+2025/02/28 02:47:15 [notice] 1#1: start worker process 29
+2025/02/28 02:47:15 [notice] 1#1: start worker process 30
+2025/02/28 02:47:15 [notice] 1#1: start worker process 31
+2025/02/28 02:47:15 [notice] 1#1: start worker process 32
+2025/02/28 02:49:03 [error] 23#23: *2 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 24#24: *4 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 25#25: *6 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 26#26: *7 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 27#27: *9 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 21#21: *8 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 24#24: *4 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 23#23: *2 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:03 [error] 23#23: *2 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 23#23: *2 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 21#21: *8 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 24#24: *4 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 25#25: *6 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 27#27: *9 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 26#26: *7 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 23#23: *2 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:08 [error] 24#24: *4 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 24#24: *4 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 25#25: *6 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 23#23: *2 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 27#27: *9 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 26#26: *7 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 21#21: *8 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 24#24: *4 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:09 [error] 27#27: *9 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 27#27: *9 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 24#24: *4 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 26#26: *7 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 25#25: *6 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 23#23: *2 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 27#27: *9 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 25#25: *6 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 25#25: *6 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 27#27: *9 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 26#26: *7 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 23#23: *2 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 24#24: *4 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 26#26: *7 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 26#26: *7 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 24#24: *4 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 23#23: *2 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 25#25: *6 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 27#27: *9 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 25#25: *6 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 26#26: *7 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 27#27: *9 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 25#25: *6 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 24#24: *4 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 23#23: *2 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 26#26: *7 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:10 [error] 21#21: *8 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 21#21: *8 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 25#25: *6 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 26#26: *7 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 23#23: *2 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 27#27: *9 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 24#24: *4 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 21#21: *8 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:29 [error] 27#27: *9 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:36 [error] 27#27: *9 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:36 [error] 24#24: *4 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:36 [error] 21#21: *8 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:36 [error] 25#25: *6 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 25#25: *6 open() "/app/static/vendor/fontawesome-free/css/all.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 27#27: *9 open() "/app/static/vendor/adminlte/css/adminlte.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 24#24: *4 open() "/app/static/vendor/bootswatch/darkly/bootstrap.min.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootswatch/darkly/bootstrap.min.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 21#21: *8 open() "/app/static/jazzmin/css/main.css" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/jazzmin/css/main.css HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 26#26: *7 open() "/app/static/vendor/adminlte/img/AdminLTELogo.png" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/img/AdminLTELogo.png HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 23#23: *2 open() "/app/static/admin/js/vendor/jquery/jquery.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 23#23: *2 open() "/app/static/vendor/bootstrap/js/bootstrap.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:49:44 [error] 26#26: *7 open() "/app/static/vendor/adminlte/js/adminlte.min.js" failed (2: No such file or directory), client: 172.21.0.1, server: , request: "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1", host: "localhost:8081", referrer: "http://localhost:8081/admin/login/?next=/admin/"
+2025/02/28 02:52:01 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/02/28 02:52:01 [notice] 21#21: gracefully shutting down
+2025/02/28 02:52:01 [notice] 23#23: gracefully shutting down
+2025/02/28 02:52:01 [notice] 27#27: gracefully shutting down
+2025/02/28 02:52:01 [notice] 22#22: gracefully shutting down
+2025/02/28 02:52:01 [notice] 26#26: gracefully shutting down
+2025/02/28 02:52:01 [notice] 21#21: exiting
+2025/02/28 02:52:01 [notice] 29#29: gracefully shutting down
+2025/02/28 02:52:01 [notice] 27#27: exiting
+2025/02/28 02:52:01 [notice] 25#25: gracefully shutting down
+2025/02/28 02:52:01 [notice] 28#28: gracefully shutting down
+2025/02/28 02:52:01 [notice] 29#29: exiting
+2025/02/28 02:52:01 [notice] 26#26: exiting
+2025/02/28 02:52:01 [notice] 22#22: exiting
+2025/02/28 02:52:01 [notice] 25#25: exiting
+2025/02/28 02:52:01 [notice] 27#27: exit
+2025/02/28 02:52:01 [notice] 28#28: exiting
+2025/02/28 02:52:01 [notice] 21#21: exit
+2025/02/28 02:52:01 [notice] 26#26: exit
+2025/02/28 02:52:01 [notice] 29#29: exit
+2025/02/28 02:52:01 [notice] 32#32: gracefully shutting down
+2025/02/28 02:52:01 [notice] 25#25: exit
+2025/02/28 02:52:01 [notice] 23#23: exiting
+2025/02/28 02:52:01 [notice] 22#22: exit
+2025/02/28 02:52:01 [notice] 31#31: gracefully shutting down
+2025/02/28 02:52:01 [notice] 28#28: exit
+2025/02/28 02:52:01 [notice] 24#24: gracefully shutting down
+2025/02/28 02:52:01 [notice] 23#23: exit
+2025/02/28 02:52:01 [notice] 30#30: gracefully shutting down
+2025/02/28 02:52:01 [notice] 31#31: exiting
+2025/02/28 02:52:01 [notice] 32#32: exiting
+2025/02/28 02:52:01 [notice] 24#24: exiting
+2025/02/28 02:52:01 [notice] 32#32: exit
+2025/02/28 02:52:01 [notice] 31#31: exit
+2025/02/28 02:52:01 [notice] 30#30: exiting
+2025/02/28 02:52:01 [notice] 24#24: exit
+2025/02/28 02:52:01 [notice] 30#30: exit
+2025/02/28 02:52:01 [notice] 1#1: signal 17 (SIGCHLD) received from 21
+2025/02/28 02:52:01 [notice] 1#1: worker process 21 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 22 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 23 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 24 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 25 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 27 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 28 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 30 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:52:01 [notice] 1#1: signal 17 (SIGCHLD) received from 23
+2025/02/28 02:52:01 [notice] 1#1: signal 17 (SIGCHLD) received from 29
+2025/02/28 02:52:01 [notice] 1#1: worker process 29 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:52:01 [notice] 1#1: signal 17 (SIGCHLD) received from 26
+2025/02/28 02:52:01 [notice] 1#1: worker process 26 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 02:52:01 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+2025/02/28 02:52:01 [notice] 1#1: worker process 31 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: worker process 32 exited with code 0
+2025/02/28 02:52:01 [notice] 1#1: exit
+2025/02/28 02:54:30 [notice] 1#1: using the "epoll" event method
+2025/02/28 02:54:30 [notice] 1#1: nginx/1.26.3
+2025/02/28 02:54:30 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/02/28 02:54:30 [notice] 1#1: OS: Linux 5.15.167.4-microsoft-standard-WSL2
+2025/02/28 02:54:30 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/02/28 02:54:30 [notice] 1#1: start worker processes
+2025/02/28 02:54:30 [notice] 1#1: start worker process 21
+2025/02/28 02:54:30 [notice] 1#1: start worker process 22
+2025/02/28 02:54:30 [notice] 1#1: start worker process 23
+2025/02/28 02:54:30 [notice] 1#1: start worker process 24
+2025/02/28 02:54:30 [notice] 1#1: start worker process 25
+2025/02/28 02:54:30 [notice] 1#1: start worker process 26
+2025/02/28 02:54:30 [notice] 1#1: start worker process 27
+2025/02/28 02:54:30 [notice] 1#1: start worker process 28
+2025/02/28 02:54:30 [notice] 1#1: start worker process 29
+2025/02/28 02:54:30 [notice] 1#1: start worker process 30
+2025/02/28 02:54:30 [notice] 1#1: start worker process 31
+2025/02/28 02:54:30 [notice] 1#1: start worker process 32
+2025/02/28 02:59:13 [error] 23#23: *2 connect() failed (111: Connection refused) while connecting to upstream, client: 172.21.0.1, server: , request: "GET /admin/login/?next=/admin/ HTTP/1.1", upstream: "http://172.21.0.8:8000/admin/login/?next=/admin/", host: "localhost:8081"
+2025/02/28 03:01:52 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2025/02/28 03:01:52 [notice] 21#21: gracefully shutting down
+2025/02/28 03:01:52 [notice] 21#21: exiting
+2025/02/28 03:01:52 [notice] 23#23: gracefully shutting down
+2025/02/28 03:01:52 [notice] 22#22: gracefully shutting down
+2025/02/28 03:01:52 [notice] 25#25: gracefully shutting down
+2025/02/28 03:01:52 [notice] 24#24: gracefully shutting down
+2025/02/28 03:01:52 [notice] 25#25: exiting
+2025/02/28 03:01:52 [notice] 22#22: exiting
+2025/02/28 03:01:52 [notice] 23#23: exiting
+2025/02/28 03:01:52 [notice] 24#24: exiting
+2025/02/28 03:01:52 [notice] 22#22: exit
+2025/02/28 03:01:52 [notice] 25#25: exit
+2025/02/28 03:01:52 [notice] 24#24: exit
+2025/02/28 03:01:52 [notice] 26#26: gracefully shutting down
+2025/02/28 03:01:52 [notice] 23#23: exit
+2025/02/28 03:01:52 [notice] 21#21: exit
+2025/02/28 03:01:52 [notice] 26#26: exiting
+2025/02/28 03:01:52 [notice] 26#26: exit
+2025/02/28 03:01:52 [notice] 27#27: gracefully shutting down
+2025/02/28 03:01:52 [notice] 28#28: gracefully shutting down
+2025/02/28 03:01:52 [notice] 27#27: exiting
+2025/02/28 03:01:52 [notice] 30#30: gracefully shutting down
+2025/02/28 03:01:52 [notice] 27#27: exit
+2025/02/28 03:01:52 [notice] 28#28: exiting
+2025/02/28 03:01:52 [notice] 32#32: gracefully shutting down
+2025/02/28 03:01:52 [notice] 30#30: exiting
+2025/02/28 03:01:52 [notice] 32#32: exiting
+2025/02/28 03:01:52 [notice] 28#28: exit
+2025/02/28 03:01:52 [notice] 32#32: exit
+2025/02/28 03:01:52 [notice] 30#30: exit
+2025/02/28 03:01:52 [notice] 31#31: gracefully shutting down
+2025/02/28 03:01:52 [notice] 29#29: gracefully shutting down
+2025/02/28 03:01:52 [notice] 31#31: exiting
+2025/02/28 03:01:52 [notice] 31#31: exit
+2025/02/28 03:01:52 [notice] 29#29: exiting
+2025/02/28 03:01:52 [notice] 29#29: exit
+2025/02/28 03:01:52 [notice] 1#1: signal 17 (SIGCHLD) received from 24
+2025/02/28 03:01:52 [notice] 1#1: worker process 24 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 26 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 28 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 29 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 30 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 31 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 32 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 23 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 03:01:52 [notice] 1#1: signal 17 (SIGCHLD) received from 29
+2025/02/28 03:01:52 [notice] 1#1: signal 17 (SIGCHLD) received from 27
+2025/02/28 03:01:52 [notice] 1#1: worker process 21 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 22 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: worker process 27 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: signal 29 (SIGIO) received
+2025/02/28 03:01:52 [notice] 1#1: signal 17 (SIGCHLD) received from 25
+2025/02/28 03:01:52 [notice] 1#1: worker process 25 exited with code 0
+2025/02/28 03:01:52 [notice] 1#1: exit
+2025/02/28 03:02:22 [notice] 1#1: using the "epoll" event method
+2025/02/28 03:02:22 [notice] 1#1: nginx/1.26.3
+2025/02/28 03:02:22 [notice] 1#1: built by gcc 13.2.1 20240309 (Alpine 13.2.1_git20240309) 
+2025/02/28 03:02:22 [notice] 1#1: OS: Linux 5.15.167.4-microsoft-standard-WSL2
+2025/02/28 03:02:22 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2025/02/28 03:02:22 [notice] 1#1: start worker processes
+2025/02/28 03:02:22 [notice] 1#1: start worker process 21
+2025/02/28 03:02:22 [notice] 1#1: start worker process 22
+2025/02/28 03:02:22 [notice] 1#1: start worker process 23
+2025/02/28 03:02:22 [notice] 1#1: start worker process 24
+2025/02/28 03:02:22 [notice] 1#1: start worker process 25
+2025/02/28 03:02:22 [notice] 1#1: start worker process 26
+2025/02/28 03:02:22 [notice] 1#1: start worker process 27
+2025/02/28 03:02:22 [notice] 1#1: start worker process 28
+2025/02/28 03:02:22 [notice] 1#1: start worker process 29
+2025/02/28 03:02:22 [notice] 1#1: start worker process 30
+2025/02/28 03:02:22 [notice] 1#1: start worker process 31
+2025/02/28 03:02:22 [notice] 1#1: start worker process 32

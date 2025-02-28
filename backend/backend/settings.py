@@ -36,6 +36,7 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',  # Должен быть первым для корректной работы админки
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,14 +50,12 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
     'dj_rest_auth',
-    'celery',
     'django_celery_beat',
-    'jazzmin',
-    'admin_soft',
     'corsheaders',
     "rest_framework_simplejwt",
     'drf_yasg',
     'channels',
+    'django_prometheus',
 
     # Custom apps
     'users',
@@ -99,7 +98,6 @@ CACHES = {
         'LOCATION': config('REDIS_URL', default='redis://redis:6379/1'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
             'CONNECTION_POOL_CLASS': 'redis.BlockingConnectionPool',
             'CONNECTION_POOL_CLASS_KWARGS': {
                 'max_connections': 50,
@@ -108,21 +106,27 @@ CACHES = {
             'MAX_CONNECTIONS': 1000,
             'PICKLE_VERSION': -1,
         },
-        'KEY_PREFIX': 'food_delivery',  # Префикс для ключей кеша
+        'KEY_PREFIX': 'food_delivery',
     }
 }
 
-# Использовать Redis для хранения сессий
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
-SESSION_CACHE_ALIAS = 'default'
+# Использовать базу данных для хранения сессий вместо Redis
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
-# Настройки кеширования страниц
-CACHE_MIDDLEWARE_SECONDS = 300  # Время кеширования страниц (5 минут)
+# Настройки кэширования страниц
+CACHE_MIDDLEWARE_SECONDS = 300  # Время кэширования страниц (5 минут)
 CACHE_MIDDLEWARE_KEY_PREFIX = 'food_delivery_cache'
 
-# Добавляем middleware для кеширования
+# URL-паттерны, для которых не нужно использовать кэширование
+CACHE_MIDDLEWARE_EXCLUDE_PATHS = [
+    '/api/basket/',
+    '/api/orders/',
+    '/api/auth/',
+]
+
+# Добавляем middleware для кэширования
 MIDDLEWARE = [
-    'django.middleware.cache.UpdateCacheMiddleware',  # Должен быть первым
+    'django_prometheus.middleware.PrometheusBeforeMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -131,7 +135,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',  # Должен быть последним
+    'backend.middleware.selective_cache.SelectiveCacheMiddleware',  # Заменяем стандартный middleware на собственный
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
     # 'backend.middleware.LogRequestMiddleware',
 ]
 
@@ -240,9 +245,9 @@ DJOSER = {
     'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': True,
-    'USERNAME_RESET_CONFIRM_URL': 'auth/username/reset/confirm/{uid}/{token}',
-    'PASSWORD_RESET_CONFIRM_URL': 'auth?mode=resetPasswordConfirm&uid={uid}&token={token}',
-    'ACTIVATION_URL': 'auth?mode=activateAccount&uid={uid}&token={token}',
+    'USERNAME_RESET_CONFIRM_URL': 'auth/username/reset/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL': 'auth/password/reset/{uid}/{token}',
+    'ACTIVATION_URL': 'auth/activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'users.serializers.UserCreateSerializer',

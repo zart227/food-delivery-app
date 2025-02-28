@@ -1,17 +1,18 @@
 {% load i18n %}
 
 {% block subject %}
-{% blocktrans %}Активация аккаунта на {{ site_name }}{% endblocktrans %}
+{% blocktrans %}Подтверждение смены email на {{ site_name }}{% endblocktrans %}
 {% endblock subject %}
 
 {% block text_body %}
 {% trans "Здравствуйте!" %}
 
-{% blocktrans %}Спасибо за регистрацию на {{ site_name }}. Для активации вашего аккаунта, пожалуйста, перейдите по ссылке ниже:{% endblocktrans %}
+{% blocktrans %}Вы получили это письмо, потому что запросили смену email адреса на {{ site_name }}.{% endblocktrans %}
 
-{{ protocol }}://{{ domain }}/auth/activate/{{ uid }}/{{ token }}
+{% trans "Для подтверждения смены email, пожалуйста, перейдите по следующей ссылке:" %}
+{{ protocol }}://{{ domain }}/auth/email/reset/{{ uid }}/{{ token }}
 
-{% trans "Ссылка действительна в течение 24 часов." %}
+{% trans "Если вы не запрашивали смену email, просто проигнорируйте это письмо." %}
 
 {% trans "С уважением," %}
 {{ site_name }}
@@ -27,18 +28,22 @@
         <h2 style="color: #1c1c1c; margin-top: 0;">{% trans "Здравствуйте!" %}</h2>
         
         <p style="color: #333333; line-height: 1.5;">
-            {% blocktrans %}Спасибо за регистрацию на {{ site_name }}. Для активации вашего аккаунта, пожалуйста, перейдите по ссылке ниже:{% endblocktrans %}
+            {% blocktrans %}Вы получили это письмо, потому что запросили смену email адреса на {{ site_name }}.{% endblocktrans %}
+        </p>
+        
+        <p style="color: #333333; line-height: 1.5;">
+            {% trans "Для подтверждения смены email, пожалуйста, перейдите по следующей ссылке:" %}
         </p>
         
         <div style="text-align: center; margin: 30px 0;">
-            <a href="{{ protocol }}://{{ domain }}/auth/activate/{{ uid }}/{{ token }}"
+            <a href="{{ protocol }}://{{ domain }}/auth/email/reset/{{ uid }}/{{ token }}"
                style="background-color: #d58c51; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
-                {% trans "Активировать аккаунт" %}
+                {% trans "Подтвердить смену email" %}
             </a>
         </div>
-
+        
         <p style="color: #666666; font-size: 14px;">
-            {% trans "Ссылка действительна в течение 24 часов." %}
+            {% trans "Если вы не запрашивали смену email, просто проигнорируйте это письмо." %}
         </p>
         
         <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
@@ -47,4 +52,4 @@
         <p style="color: #d58c51; font-weight: bold; margin-top: 0;">{{ site_name }}</p>
     </div>
 </div>
-{% endblock html_body %}
+{% endblock html_body %} 

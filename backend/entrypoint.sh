@@ -10,7 +10,20 @@ if [ "$SERVICE_NAME" = "django" ]; then
 
     echo "🔄 Применение миграций..."
     python manage.py migrate
-    python manage.py populate_products
+
+    echo "🔍 Проверка наличия продуктов в базе..."
+    PRODUCTS_COUNT=$(python manage.py shell <<EOF
+from products.models import Product
+print(Product.objects.count())
+EOF
+    )
+
+    if [ "$PRODUCTS_COUNT" -eq 0 ]; then
+        echo "🔄 Заполнение базы данных продуктами..."
+        python manage.py populate_products
+    else
+        echo "✅ Продукты уже существуют в базе"
+    fi
 
     echo "🔍 Проверка существования суперпользователя..."
     SUPERUSER_EXISTS=$(python manage.py shell <<EOF

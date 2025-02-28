@@ -19,6 +19,7 @@ import RegisterForm from '../components/blocks/Auth/RegisterForm.vue';
 import ForgotPasswordForm from '../components/blocks/Auth/ForgotPasswordForm.vue';
 import ActivationPending from '../components/blocks/Auth/ActivationPending.vue';
 import ActivateAccount from '../components/blocks/Auth/ActivateAccount.vue';
+import ResetEmailConfirm from '../components/blocks/Auth/ResetEmailConfirm.vue';
 
 export default {
   name: 'AuthPage',
@@ -52,6 +53,8 @@ export default {
           return ActivationPending;
         case 'activateAccount':
           return ActivateAccount;
+        case 'resetEmail':
+          return ResetEmailConfirm;
         default:
           return LoginForm;
       }
@@ -63,6 +66,7 @@ export default {
         forgotPassword: 'Восстановление пароля',
         activationPending: 'Активация аккаунта',
         activateAccount: 'Подтверждение аккаунта',
+        resetEmail: 'Смена Email',
       }[this.currentMode];
     },
   },

@@ -1,0 +1,86 @@
+{% load i18n %}
+
+{% block subject %}
+{% blocktrans %}Подтверждение заказа #{{ order.id }} на {{ site_name }}{% endblocktrans %}
+{% endblock subject %}
+
+{% block text_body %}
+{% trans "Здравствуйте!" %}
+
+{% blocktrans %}Спасибо за ваш заказ #{{ order.id }} на {{ site_name }}.{% endblocktrans %}
+
+{% trans "Детали заказа:" %}
+{% for item in order.items.all %}
+- {{ item.product.title }} x {{ item.quantity }} = {{ item.total_price }} ₽
+{% endfor %}
+
+{% trans "Общая сумма:" %} {{ order.total_price }} ₽
+{% trans "Адрес доставки:" %} {{ order.delivery_address }}
+{% trans "Статус заказа:" %} {{ order.get_status_display }}
+
+{% trans "Вы можете отслеживать статус вашего заказа в личном кабинете:" %}
+{{ protocol }}://{{ domain }}/orders
+
+{% trans "С уважением," %}
+{{ site_name }}
+{% endblock text_body %}
+
+{% block html_body %}
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background-color: #1c1c1c; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+        <h1 style="color: #d58c51; margin: 0; text-align: center;">{{ site_name }}</h1>
+    </div>
+    
+    <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h2 style="color: #1c1c1c; margin-top: 0;">{% trans "Здравствуйте!" %}</h2>
+        
+        <p style="color: #333333; line-height: 1.5;">
+            {% blocktrans %}Спасибо за ваш заказ #{{ order.id }} на {{ site_name }}.{% endblocktrans %}
+        </p>
+        
+        <h3 style="color: #d58c51; margin-top: 30px;">{% trans "Детали заказа:" %}</h3>
+        
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background-color: #f8f8f8;">
+                <th style="padding: 10px; text-align: left; border-bottom: 2px solid #eeeeee;">{% trans "Блюдо" %}</th>
+                <th style="padding: 10px; text-align: center; border-bottom: 2px solid #eeeeee;">{% trans "Количество" %}</th>
+                <th style="padding: 10px; text-align: right; border-bottom: 2px solid #eeeeee;">{% trans "Сумма" %}</th>
+            </tr>
+            {% for item in order.items.all %}
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #eeeeee;">{{ item.product.title }}</td>
+                <td style="padding: 10px; text-align: center; border-bottom: 1px solid #eeeeee;">{{ item.quantity }}</td>
+                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eeeeee;">{{ item.total_price }} ₽</td>
+            </tr>
+            {% endfor %}
+            <tr style="font-weight: bold;">
+                <td colspan="2" style="padding: 10px; text-align: right;">{% trans "Общая сумма:" %}</td>
+                <td style="padding: 10px; text-align: right;">{{ order.total_price }} ₽</td>
+            </tr>
+        </table>
+        
+        <div style="background-color: #f8f8f8; padding: 15px; border-radius: 4px; margin: 20px 0;">
+            <p style="margin: 0 0 10px 0; color: #333333;">
+                <strong>{% trans "Адрес доставки:" %}</strong><br>
+                {{ order.delivery_address }}
+            </p>
+            <p style="margin: 0; color: #333333;">
+                <strong>{% trans "Статус заказа:" %}</strong><br>
+                <span style="color: #d58c51;">{{ order.get_status_display }}</span>
+            </p>
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{ protocol }}://{{ domain }}/orders"
+               style="background-color: #d58c51; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 4px; display: inline-block;">
+                {% trans "Отслеживать заказ" %}
+            </a>
+        </div>
+        
+        <hr style="border: none; border-top: 1px solid #eeeeee; margin: 30px 0;">
+        
+        <p style="color: #333333; margin-bottom: 5px;">{% trans "С уважением," %}</p>
+        <p style="color: #d58c51; font-weight: bold; margin-top: 0;">{{ site_name }}</p>
+    </div>
+</div>
+{% endblock html_body %} 

@@ -2,6 +2,7 @@ import os
 from django.core.management.base import BaseCommand
 from products.models import Product, Category
 from django.utils.text import slugify
+from django.conf import settings
 
 
 class Command(BaseCommand):
@@ -12,41 +13,40 @@ class Command(BaseCommand):
         categories = {
             'seafood': {
                 'name': 'Морепродукты',
+                'slug': 'seafood',
                 'description': 'Блюда из морепродуктов'
             },
             'meat': {
                 'name': 'Мясные блюда',
+                'slug': 'meat',
                 'description': 'Блюда из мяса'
             },
             'salads': {
                 'name': 'Салаты',
+                'slug': 'salads',
                 'description': 'Свежие салаты'
             },
             'soups': {
                 'name': 'Супы',
+                'slug': 'soups',
                 'description': 'Первые блюда'
             },
             'vegetarian': {
                 'name': 'Вегетарианские блюда',
+                'slug': 'vegetarian',
                 'description': 'Блюда без мяса'
             }
         }
 
-        # Создаем категории
         created_categories = {}
         for slug, cat_data in categories.items():
             category, created = Category.objects.get_or_create(
                 slug=slug,
-                defaults={
-                    'name': cat_data['name'],
-                    'description': cat_data['description']
-                }
+                defaults=cat_data
             )
-            created_categories[slug] = category
             if created:
                 self.stdout.write(self.style.SUCCESS(f"Created category: {category.name}"))
-            else:
-                self.stdout.write(self.style.WARNING(f"Category exists: {category.name}"))
+            created_categories[slug] = category
 
         # Данные товаров с указанием категорий
         goods = [
@@ -197,12 +197,6 @@ class Command(BaseCommand):
         ]
 
         for good in goods:
-            # Убедитесь, что изображение существует в `MEDIA_ROOT`
-            image_path = os.path.join('media', good['image'])
-            if not os.path.exists(image_path):
-                self.stdout.write(self.style.ERROR(f"Image {good['image']} not found. Skipping."))
-                continue
-
             category = created_categories[good['category']]
 
             # Создаём или обновляем товар

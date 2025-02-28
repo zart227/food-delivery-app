@@ -1,8 +1,11 @@
 import api from './axios';
-import { refreshToken, logout } from '../services/authService';
+import { refreshToken } from '../services/authService';
+import { useAuthStore } from '../stores/auth';
+import router from '../router';
+import { getAuthToken } from '../utils/cookies';
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('authToken');
+  const token = getAuthToken();
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -13,17 +16,24 @@ api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true; // Помечаем запрос, чтобы избежать бесконечной петли
+    
+    // Проверяем, является ли ошибка связанной с истечением токена
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      
       try {
         const newAccessToken = await refreshToken();
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return api(originalRequest); // Повторяем запрос
+        return api(originalRequest);
       } catch (refreshError) {
         console.error('Не удалось обновить токен:', refreshError);
-        logout(); // Выход пользователя при истечении refresh токена
+        const authStore = useAuthStore();
+        await authStore.logoutUser();
+        await router.push('/auth');
+        return Promise.reject(refreshError);
       }
     }
+    
     return Promise.reject(error);
   }
 );

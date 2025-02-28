@@ -22,6 +22,7 @@ from django.conf.urls.static import static
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.http import HttpResponse
 
 # Настройка Swagger UI
 schema_view = get_schema_view(
@@ -30,15 +31,21 @@ schema_view = get_schema_view(
         default_version='v1',
         description="API для сервиса доставки еды",
         terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@fooddelivery.local"),
+        contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
 )
 
+def healthcheck(request):
+    return HttpResponse("ok")
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    
+    # Prometheus metrics
+    path('', include('django_prometheus.urls')),
     
     # Swagger UI URLs
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
@@ -50,10 +57,12 @@ urlpatterns = [
         path("auth/", include("djoser.urls")),
         path("auth/", include("djoser.urls.jwt")),
         path("auth/", include("djoser.urls.authtoken")),
+        path("users/", include("users.urls")),
         path("", include("products.urls")),
         path("", include("basket.urls")),
         path("", include("orders.urls")),
     ])),
+    path('healthcheck/', healthcheck),  # Новый эндпоинт для healthcheck
 ]
 
 # Маршруты для статических файлов и медиа

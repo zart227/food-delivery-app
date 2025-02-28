@@ -80,6 +80,15 @@ export default {
     }
   },
   methods: {
+    resetForm() {
+      this.form = {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        subscribe: false,
+      }
+    },
     async handleRegister() {
       this.clearErrors()
 
@@ -95,6 +104,7 @@ export default {
           re_password: this.form.confirmPassword,
         })
 
+        this.resetForm()
         this.toast.success('Регистрация успешна! Проверьте почту для подтверждения аккаунта.')
         this.$emit(
           'success',

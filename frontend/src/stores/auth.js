@@ -2,35 +2,27 @@ import { defineStore } from 'pinia'
 import {
   login,
   refreshToken,
-  logout,
   verifyToken,
+  getCurrentToken
 } from '../services/authService'
+import router from '../router'
 import api from '../api/axios'
+import { getAuthToken, clearAuthTokens, setAuthTokens } from '../utils/cookies'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    authToken: localStorage.getItem('authToken') || null,
-    refreshToken: localStorage.getItem('refreshToken') || null,
-    isAuthenticated: !!localStorage.getItem('authToken'),
-    user: null, // Состояние для хранения текущего пользователя
+    isAuthenticated: !!getAuthToken(),
+    user: null,
   }),
 
   actions: {
     async loginUser(username, password) {
       try {
         const data = await login(username, password)
-        this.authToken = data.access
-        this.refreshToken = data.refresh
         this.isAuthenticated = true
-
-        // // Сохраняем токены в localStorage
-        localStorage.setItem('authToken', this.authToken)
-        localStorage.setItem('refreshToken', this.refreshToken)
-
-        // Загружаем данные текущего пользователя
         await this.loadCurrentUser()
       } catch (error) {
-        console.error('Ошибка при авторизации:', error)
+        this.isAuthenticated = false
         throw error
       }
     },
@@ -41,65 +33,69 @@ export const useAuthStore = defineStore('auth', {
         this.user = response.data
       } catch (error) {
         console.error('Ошибка при загрузке данных пользователя:', error)
-        this.logoutUser()
+        await this.logoutUser()
+        throw error
       }
     },
 
     async refreshAuthToken() {
       try {
         const newToken = await refreshToken()
-        this.authToken = newToken
         this.isAuthenticated = true
-        // Также можно обновить текущего пользователя после обновления токена
-        await this.loadCurrentUser()
+        return newToken
       } catch (error) {
         console.error('Ошибка обновления токена:', error)
-        this.logoutUser()
+        await this.logoutUser()
+        throw error
       }
     },
 
     async logoutUser() {
-      try {
-        await logout()
-        this.authToken = null
-        this.refreshToken = null
-        this.isAuthenticated = false
-        this.user = null
-      } catch (error) {
-        console.error('Ошибка при выходе:', error)
+      this.isAuthenticated = false
+      this.user = null
+      clearAuthTokens()
+      
+      if (router.currentRoute.value.meta.requiresAuth) {
+        await router.push('/auth')
       }
     },
 
     async verifyAuthToken() {
-      if (!this.authToken) {
+      const token = getCurrentToken()
+      if (!token) {
         this.isAuthenticated = false
         return false
       }
+
       try {
-        const isValid = await verifyToken(this.authToken)
+        const isValid = await verifyToken(token)
         this.isAuthenticated = isValid
         return isValid
       } catch (error) {
         console.error('Ошибка проверки токена:', error)
-        this.logoutUser()
+        await this.logoutUser()
         return false
       }
     },
 
     async checkAuthStatus() {
-      if (!this.authToken) {
-        this.logoutUser()
-        return
+      const token = getCurrentToken()
+      if (!token) {
+        await this.logoutUser()
+        return false
       }
 
       try {
-        await this.verifyAuthToken()
-        if (this.isAuthenticated) {
+        const isValid = await this.verifyAuthToken()
+        if (isValid) {
           await this.loadCurrentUser()
+          return true
         }
+        return false
       } catch (error) {
         console.error('Ошибка проверки статуса авторизации:', error)
-        this.logoutUser()
+        await this.logoutUser()
+        return false
       }
     },
   },

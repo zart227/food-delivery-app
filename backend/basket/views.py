@@ -4,19 +4,19 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
 from .models import Basket
 from .serializers import BasketSerializer
-from utils.cache import CachedAPIView, invalidate_cache_pattern
 
 
-class BasketView(CachedAPIView):
+@method_decorator(never_cache, name='dispatch')
+class BasketView(APIView):
     """
     API endpoint для управления корзиной пользователя.
     Позволяет просматривать, добавлять, удалять и изменять количество товаров в корзине.
     """
     permission_classes = [IsAuthenticated]
-    cache_key_prefix = 'basket'
-    cache_timeout = 300  # 5 минут для корзины
 
     @swagger_auto_schema(
         operation_description="Получить содержимое корзины текущего пользователя",
@@ -31,9 +31,7 @@ class BasketView(CachedAPIView):
         """
         basket = Basket.objects.filter(user=request.user)
         serializer = BasketSerializer(basket, many=True)
-        response = Response(serializer.data, status=status.HTTP_200_OK)
-        self.cache_response(request, response)
-        return response
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         operation_description="Добавить товар в корзину",
@@ -72,9 +70,6 @@ class BasketView(CachedAPIView):
             if not created:
                 basket_item.quantity += data.get("quantity", 1)
                 basket_item.save()
-
-            # Инвалидируем кеш корзины пользователя
-            self.invalidate_cache(request)
             return Response(
                 BasketSerializer(basket_item).data, status=status.HTTP_201_CREATED
             )
@@ -100,8 +95,6 @@ class BasketView(CachedAPIView):
         try:
             basket_item = Basket.objects.get(user=request.user, pk=pk)
             basket_item.delete()
-            # Инвалидируем кеш корзины пользователя
-            self.invalidate_cache(request)
             return Response(status=status.HTTP_204_NO_CONTENT)
         except Basket.DoesNotExist:
             return Response(
@@ -141,8 +134,6 @@ class BasketView(CachedAPIView):
             if new_quantity is not None and int(new_quantity) > 0:
                 basket_item.quantity = int(new_quantity)
                 basket_item.save()
-                # Инвалидируем кеш корзины пользователя
-                self.invalidate_cache(request)
                 return Response(
                     BasketSerializer(basket_item).data, status=status.HTTP_200_OK
                 )

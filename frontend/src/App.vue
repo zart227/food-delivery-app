@@ -3,24 +3,30 @@
 </template>
 
 <script setup>
-// import { onBeforeMount } from 'vue'
-// import { useBasketStore } from '@/stores/basket'
-// import { useAuthStore } from '@/stores/auth' // Pinia для управления авторизацией
-// // import api from './api/axios'   // Настроенный axios
+import { onBeforeMount } from 'vue'
+import { useBasketStore } from '@/stores/basket'
+import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
-// const basketStore = useBasketStore()
-// const authStore = useAuthStore()
+const basketStore = useBasketStore()
+const authStore = useAuthStore()
+const router = useRouter()
 
-// onBeforeMount(async () => {
-//   try {
-//     await authStore.checkAuthStatus() // Проверяем авторизацию и устанавливаем пользователя
-//     if (authStore.isAuthenticated) {
-//       await basketStore.fetchUserBasket() // Загружаем корзину только если пользователь авторизован
-//     }
-//   } catch (error) {
-//     console.error('Ошибка при инициализации приложения:', error)
-//   }
-// })
+onBeforeMount(async () => {
+  try {
+    const isAuthenticated = await authStore.checkAuthStatus()
+    if (isAuthenticated) {
+      await basketStore.fetchUserBasket()
+    } else if (router.currentRoute.value.meta.requiresAuth) {
+      await router.push('/auth')
+    }
+  } catch (error) {
+    console.error('Ошибка при инициализации приложения:', error)
+    if (router.currentRoute.value.meta.requiresAuth) {
+      await router.push('/auth')
+    }
+  }
+})
 </script>
 
 <style lang="scss">
