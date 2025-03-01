@@ -10,6 +10,7 @@ graph TB
     classDef queue fill:#ff6b6b,stroke:#cc5757,color:white
     classDef proxy fill:#009639,stroke:#007a2e,color:white
     classDef monitoring fill:#f5a623,stroke:#d48c1f,color:white
+    classDef scheduler fill:#e535ab,stroke:#b5237d,color:white
 
     %% Клиентская часть
     Client[Браузер/Клиент]
@@ -23,6 +24,7 @@ graph TB
     %% Backend сервисы
     Django[Django Backend<br/>DRF + Channels]:::backend
     Celery[Celery Workers]:::queue
+    CeleryBeat[Celery Beat<br/>Scheduler]:::scheduler
     
     %% База данных и кеширование
     Postgres[(PostgreSQL)]:::database
@@ -41,10 +43,13 @@ graph TB
     Django --> Celery
     Celery --> Redis
     Celery --> Postgres
+    CeleryBeat --> Celery
+    CeleryBeat --> Redis
     
     %% Мониторинг связи
     Django -.-> Prometheus
     Celery -.-> Prometheus
+    CeleryBeat -.-> Prometheus
     Nginx -.-> Prometheus
     Prometheus -.-> Grafana
 
@@ -57,6 +62,7 @@ graph TB
     Django -- "Кеширование" --> Redis
     Django -- "Асинхронные задачи" --> Celery
     Celery -- "Очереди" --> Redis
+    CeleryBeat -- "Периодические задачи" --> Celery
 ```
 
 ## Описание компонентов
@@ -73,10 +79,17 @@ graph TB
 - JWT аутентификация
 - Асинхронные задачи
 
-### Очереди и кеширование
+### Очереди и планировщик
 - Celery для обработки асинхронных задач
+- Celery Beat для периодических задач
 - Redis как брокер сообщений
 - Кеширование данных в Redis
+
+### Периодические задачи
+- Очистка неактивных корзин
+- Обновление статистики
+- Генерация отчетов
+- Мониторинг состояния системы
 
 ### База данных
 - PostgreSQL для хранения данных
