@@ -5,6 +5,7 @@
 ## Технологический стек
 
 ### Backend
+
 - Python 3.12
 - Django 5.1
 - Django REST Framework
@@ -18,6 +19,7 @@
 - Swagger/ReDoc (API документация)
 
 ### Frontend
+
 - Vue.js 3
 - Vite
 - Pinia (управление состоянием)
@@ -27,6 +29,7 @@
 - WebSocket (для real-time уведомлений)
 
 ### Мониторинг и логирование
+
 - Prometheus
 - Grafana
 - Node Exporter
@@ -36,6 +39,7 @@
 ## Основные функции
 
 ### Пользовательская часть
+
 - Регистрация и авторизация пользователей с подтверждением email
 - Каталог блюд с фильтрацией и поиском
 - Корзина покупок
@@ -45,6 +49,7 @@
 - Email уведомления
 
 ### Административная часть
+
 - Управление категориями товаров
   - Отображение количества продуктов в каждой категории
   - Автоматическая генерация slug
@@ -64,6 +69,7 @@
 ## Установка и запуск
 
 ### Требования
+
 - Docker
 - Docker Compose
 - Git
@@ -71,40 +77,45 @@
 ### Разработка
 
 1. Клонируйте репозиторий:
+
 ```bash
 git clone <repository-url>
 cd <project-directory>
 ```
 
 2. Создайте файл `.env` на основе `.env.example`:
+
 ```bash
 cp .env.example .env
 ```
 
 3. Запустите проект в режиме разработки:
+
 ```bash
 docker compose -f docker-compose.dev.yml up -d
 ```
 
 ### Доступные сервисы
 
-- Frontend: http://localhost:8081
-- API: http://localhost:8081/api/
-- Admin панель: http://localhost:8081/admin/
-- Swagger: http://localhost:8081/swagger/
-- ReDoc: http://localhost:8081/redoc/
-- Flower (мониторинг Celery): http://localhost:5555
-- Grafana: http://localhost:3000 (admin/admin)
-- Prometheus: http://localhost:9090
+- Frontend: <http://localhost:8081>
+- API: <http://localhost:8081/api/>
+- Admin панель: <http://localhost:8081/admin/>
+- Swagger: <http://localhost:8081/swagger/>
+- ReDoc: <http://localhost:8081/redoc/>
+- Flower (мониторинг Celery): <http://localhost:5555>
+- Grafana: <http://localhost:3000> (admin/admin)
+- Prometheus: <http://localhost:9090>
 
 ### Production
 
 1. Настройте переменные окружения в `.env`:
+
 ```bash
 cp .env.example .env
 ```
 
 2. Запустите проект:
+
 ```bash
 docker compose up -d
 ```
@@ -112,6 +123,7 @@ docker compose up -d
 ## Автоматическая инициализация
 
 При первом запуске автоматически выполняются:
+
 - Применение миграций базы данных
 - Создание суперпользователя (если не существует)
 - Заполнение базы данных тестовыми продуктами (если база пуста)
@@ -120,13 +132,16 @@ docker compose up -d
 ### Учетные данные по умолчанию
 
 #### Development
+
 - Admin панель:
   - Логин: admin
-  - Email: admin@example.com
+  - Email: <admin@example.com>
   - Пароль: admin
 
 #### Production
+
 Учетные данные настраиваются через переменные окружения:
+
 - DJANGO_SUPERUSER_USERNAME
 - DJANGO_SUPERUSER_EMAIL
 - DJANGO_SUPERUSER_PASSWORD
@@ -134,18 +149,21 @@ docker compose up -d
 ## Мониторинг
 
 ### Grafana
-- Доступ: http://localhost:3000
+
+- Доступ: <http://localhost:3000>
 - Логин: admin
 - Пароль: admin
 
 Предварительно настроенные дашборды:
+
 - Nginx статистика
 - Системные метрики
 - Метрики Django
 - Мониторинг Celery
 
 ### Prometheus
-- Доступ: http://localhost:9090
+
+- Доступ: <http://localhost:9090>
 - Собирает метрики со следующих экспортеров:
   - Node Exporter (системные метрики)
   - Nginx Exporter
@@ -153,7 +171,8 @@ docker compose up -d
   - Celery metrics (через Flower)
 
 ### Flower
-- Доступ: http://localhost:5555
+
+- Доступ: <http://localhost:5555>
 - Мониторинг задач Celery
 - Статистика воркеров
 - Мониторинг очередей
@@ -177,6 +196,7 @@ docker compose up -d
 ## Email уведомления
 
 Настроены следующие типы уведомлений:
+
 - Подтверждение регистрации
 - Восстановление пароля
 - Подтверждение заказа
@@ -191,8 +211,8 @@ docker compose up -d
 
 ## API Документация
 
-- Swagger UI: http://localhost:8081/swagger/
-- ReDoc: http://localhost:8081/redoc/
+- Swagger UI: <http://localhost:8081/swagger/>
+- ReDoc: <http://localhost:8081/redoc/>
 
 ## Тестирование
 
@@ -217,6 +237,7 @@ docker compose -f docker-compose.dev.yml exec django coverage report
 ## Разработка
 
 ### Структура проекта
+
 ```
 .
 ├── backend/             # Django backend
@@ -231,6 +252,7 @@ docker compose -f docker-compose.dev.yml exec django coverage report
 ```
 
 ### Рекомендации по разработке
+
 - Следуйте PEP 8 для Python кода
 - Используйте типизацию Python
 - Пишите тесты для новой функциональности

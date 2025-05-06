@@ -11,8 +11,9 @@
 **/*.env
 frontend/.env
 .cursorignore
-*.pptx
-# *.txt
+# *.pptx
+*.txt
 Шаблон *.txt
 
-nginx/logs/*.log
+nginx/logs/*
+
