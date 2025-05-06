@@ -5,6 +5,7 @@ import {
   removeFromBasket,
   updateBasketItemQuantity,
 } from '../services/basketService';
+import { getErrorMessage } from '../utils/cookies';
 
 export const useBasketStore = defineStore('basket', {
   state: () => ({
@@ -34,7 +35,8 @@ export const useBasketStore = defineStore('basket', {
         const basketData = await fetchBasket();
         this.setBasket(basketData);
       } catch (error) {
-        console.error('Ошибка загрузки корзины:', error);
+        const message = getErrorMessage(error, 'Ошибка загрузки корзины!');
+        console.error('Ошибка загрузки корзины:', message);
       }
     },
 
@@ -56,7 +58,8 @@ export const useBasketStore = defineStore('basket', {
           this.basket.push(basketItem);
         }
       } catch (error) {
-        console.error('Ошибка добавления в корзину:', error);
+        const message = getErrorMessage(error, 'Ошибка добавления в корзину!');
+        console.error('Ошибка добавления в корзину:', message);
       }
     }, 
 
@@ -65,7 +68,8 @@ export const useBasketStore = defineStore('basket', {
         await removeFromBasket(basketItemId);
         this.basket = this.basket.filter((item) => item.id !== basketItemId);
       } catch (error) {
-        console.error('Ошибка удаления из корзины:', error);
+        const message = getErrorMessage(error, 'Ошибка удаления из корзины!');
+        console.error('Ошибка удаления из корзины:', message);
       }
     },
 
@@ -77,7 +81,8 @@ export const useBasketStore = defineStore('basket', {
           this.basket[itemIndex] = updatedItem;
         }
       } catch (error) {
-        console.error('Ошибка обновления количества товара:', error);
+        const message = getErrorMessage(error, 'Ошибка обновления количества товара!');
+        console.error('Ошибка обновления количества товара:', message);
       }
     },
   },

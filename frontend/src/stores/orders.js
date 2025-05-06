@@ -53,15 +53,15 @@ export const useOrdersStore = defineStore('orders', {
 
             try {
                 const response = await createOrder(orderData);
-                this.currentOrder = response.data;
+                this.currentOrder = response;
                 
                 // Запрашиваем статус созданного заказа через WebSocket
                 if (this.wsConnected) {
-                    websocketService.requestOrderStatus(response.data.id);
+                    websocketService.requestOrderStatus(response.id);
                 }
 
                 toast.success('Заказ успешно создан!');
-                return response.data;
+                return response;
             } catch (error) {
                 this.error = error.message;
                 toast.error('Ошибка при создании заказа');
