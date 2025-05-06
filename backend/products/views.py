@@ -74,6 +74,20 @@ class CategoryViewSet(ReadOnlyModelViewSet):
     serializer_class = CategorySerializer
     lookup_field = 'slug'
 
+    @swagger_auto_schema(
+        operation_description="Получить список всех категорий",
+        responses={200: CategorySerializer(many=True)}
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @swagger_auto_schema(
+        operation_description="Получить детальную информацию о категории",
+        responses={200: CategorySerializer, 404: 'Категория не найдена'}
+    )
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
+
 
 class ProductViewSet(ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
@@ -103,25 +117,57 @@ class ProductViewSet(ReadOnlyModelViewSet):
             
         return queryset
 
+    @swagger_auto_schema(
+        operation_description="Получить список всех продуктов с фильтрацией и поиском",
+        responses={200: ProductSerializer(many=True)}
+    )
     @cache_response(timeout=3600, key_prefix='products_viewset_list')
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_description="Получить детальную информацию о продукте по ID",
+        responses={200: ProductSerializer, 404: 'Продукт не найден'}
+    )
     @cache_response(timeout=3600, key_prefix='products_viewset_detail')
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
+    @swagger_auto_schema(
+        operation_description="Создать новый продукт",
+        request_body=ProductSerializer,
+        responses={
+            201: ProductSerializer,
+            400: 'Ошибка валидации'
+        }
+    )
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
-        invalidate_cache_pattern('products')  # Инвалидируем кеш при создании
+        invalidate_cache_pattern('products')
         return response
 
+    @swagger_auto_schema(
+        operation_description="Обновить информацию о продукте по ID",
+        request_body=ProductSerializer,
+        responses={
+            200: ProductSerializer,
+            400: 'Ошибка валидации',
+            404: 'Продукт не найден'
+        }
+    )
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
-        invalidate_cache_pattern('products')  # Инвалидируем кеш при обновлении
+        invalidate_cache_pattern('products')
         return response
 
+    @swagger_auto_schema(
+        operation_description="Удалить продукт по ID",
+        responses={
+            204: 'Продукт успешно удалён',
+            404: 'Продукт не найден'
+        }
+    )
     def destroy(self, request, *args, **kwargs):
         response = super().destroy(request, *args, **kwargs)
-        invalidate_cache_pattern('products')  # Инвалидируем кеш при удалении
+        invalidate_cache_pattern('products')
         return response

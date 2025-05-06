@@ -10,9 +10,17 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
-    category_id = serializers.IntegerField(write_only=True)
-    image = serializers.SerializerMethodField()
+    title = serializers.CharField(help_text="Название продукта")
+    description = serializers.CharField(help_text="Описание продукта")
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, help_text="Цена продукта")
+    image = serializers.SerializerMethodField(help_text="URL изображения продукта")
+    category = CategorySerializer(read_only=True, help_text="Категория продукта")
+    category_id = serializers.IntegerField(write_only=True, help_text="ID категории продукта")
+    is_available = serializers.BooleanField(help_text="Доступен ли продукт для заказа")
+    weight = serializers.DecimalField(max_digits=6, decimal_places=2, required=False, help_text="Вес в граммах")
+    calories = serializers.IntegerField(required=False, help_text="Калорийность продукта")
+    is_vegetarian = serializers.BooleanField(help_text="Вегетарианский продукт")
+    is_spicy = serializers.BooleanField(help_text="Острый продукт")
 
     class Meta:
         model = Product
