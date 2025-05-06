@@ -1,0 +1,102 @@
+{
+  "id": null,
+  "uid": "prometheus-stats",
+  "title": "Prometheus Stats",
+  "tags": ["prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 36,
+  "version": 1,
+  "refresh": "10s",
+  "panels": [
+    {
+      "type": "stat",
+      "title": "Prometheus Uptime",
+      "gridPos": {"x": 0, "y": 0, "w": 8, "h": 4},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "(time() - process_start_time_seconds) / 3600",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Uptime (hours)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "hours",
+          "decimals": 2
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Active Targets",
+      "gridPos": {"x": 8, "y": 0, "w": 8, "h": 4},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "count(up == 1)",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Active Targets",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Prometheus Scrape Interval (avg)",
+      "gridPos": {"x": 0, "y": 4, "w": 8, "h": 4},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "avg(prometheus_target_interval_length_seconds{job=\"prometheus\"})",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Scrape Interval (s)",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "decimals": 3
+        },
+        "overrides": []
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Prometheus TSDB Head Series",
+      "gridPos": {"x": 8, "y": 4, "w": 8, "h": 4},
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "prometheus_tsdb_head_series",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "Head Series",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "unit": "none"
+        },
+        "overrides": []
+      }
+    }
+  ]
+} 
