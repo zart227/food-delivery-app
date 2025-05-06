@@ -177,6 +177,11 @@ export default {
     line-height: normal;
     text-transform: uppercase;
   }
+
+  .header__right_block {
+    display: flex;
+    gap: 34px;
+  }
 }
 
 /* Стили для главной страницы */
@@ -222,13 +227,13 @@ export default {
     justify-content: space-between;
     flex-direction: row;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
   }
 
   .header__name {
     color: #fff;
     font-family: Montserrat;
-    font-size: 31px;
+    font-size: 27px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;

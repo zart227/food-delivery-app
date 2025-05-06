@@ -9,6 +9,7 @@
         :class="{ 'input-field__input--error': error }"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
+        :autocomplete="autocomplete"
       />
       <span v-if="error" class="input-field__error">{{ error }}</span>
     </div>
@@ -41,6 +42,10 @@
       id: {
         type: String,
         default: () => `input-${Math.random().toString(36).substr(2, 9)}`,
+      },
+      autocomplete: {
+        type: String,
+        default: '',
       },
     },
     emits: ['update:modelValue'], // Явно объявляем событие

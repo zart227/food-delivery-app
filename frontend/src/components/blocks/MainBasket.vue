@@ -34,6 +34,7 @@ import { computed } from 'vue'
 import CardProduct from '../elements/CardProduct.vue'
 import { useBasketStore } from '@/stores/basket'
 import { useToast } from 'vue-toastification'
+import { getErrorMessage } from '@/utils/cookies'
 
 export default {
   name: 'MainBasket',
@@ -49,7 +50,8 @@ export default {
       try {
         await basketStore.removeGoodFromBasket(basketItemId)
       } catch (error) {
-        toast.error('Ошибка удаления товара из корзины!')
+        const message = getErrorMessage(error, 'Ошибка удаления товара из корзины!')
+        toast.error(message)
         console.error('Ошибка удаления товара из корзины:', error)
       }
     }
@@ -59,7 +61,8 @@ export default {
       try {
         await basketStore.updateBasketItemQuantity(basketItemId, quantity)
       } catch (error) {
-        toast.error('Ошибка обновления количества товара!')
+        const message = getErrorMessage(error, 'Ошибка обновления количества товара!')
+        toast.error(message)
         console.error('Ошибка обновления количества товара:', error)
       }
     }

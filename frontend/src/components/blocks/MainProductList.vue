@@ -51,6 +51,7 @@ import ProductFilters from './ProductFilters.vue'
 import { useBasketStore } from '@/stores/basket'
 import { useProductsStore } from '@/stores/products'
 import { useToast } from 'vue-toastification'
+import { getErrorMessage } from '@/utils/cookies'
 
 export default {
   name: 'MainProductList',
@@ -68,7 +69,8 @@ export default {
       try {
         await productsStore.fetchAllProducts()
       } catch (error) {
-        toast.error('Ошибка загрузки товаров!')
+        const message = getErrorMessage(error, 'Ошибка загрузки товаров!')
+        toast.error(message)
       }
     })
 
@@ -86,7 +88,8 @@ export default {
         await basketStore.addGoodInBasket(productId)
         toast.success('Товар добавлен в корзину!')
       } catch (error) {
-        toast.error('Ошибка добавления товара в корзину!')
+        const message = getErrorMessage(error, 'Ошибка добавления товара в корзину!')
+        toast.error(message)
       }
     }
 
