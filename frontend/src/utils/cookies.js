@@ -35,4 +35,28 @@ export const getRefreshToken = () => getCookie('refreshToken');
 export const clearAuthTokens = () => {
   deleteCookie('authToken');
   deleteCookie('refreshToken');
-}; 
+};
+
+// Универсальная функция для получения текста ошибки
+export function getErrorMessage(error, fallback = 'Произошла ошибка') {
+  // Если есть detail
+  if (error?.response?.data?.detail) return error.response.data.detail;
+  // Если есть message
+  if (error?.response?.data?.message) return error.response.data.message;
+  // Если это строка (например, HTML)
+  if (typeof error?.response?.data === 'string') {
+    // Если это HTML-страница ошибки
+    if (error.response.data.trim().startsWith('<!DOCTYPE html>')) {
+      return fallback;
+    }
+    return error.response.data;
+  }
+  // Если это объект (например, словарь с ошибками)
+  if (error?.response?.data && typeof error.response.data === 'object') {
+    // Пробуем собрать все сообщения в одну строку
+    return Object.values(error.response.data).flat().join(' ') || fallback;
+  }
+  if (error instanceof Error) return error.message;
+  if (typeof error === 'string') return error;
+  return fallback;
+} 
