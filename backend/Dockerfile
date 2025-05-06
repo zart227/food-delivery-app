@@ -5,6 +5,12 @@ WORKDIR /app
 # Установка зависимостей системы
 RUN apt-get update && apt-get install -y build-essential nginx curl netcat-openbsd
 
+# Создаем пользователя celery
+RUN groupadd -r celery && useradd -r -g celery celery
+
+# Создаем директории для данных и настраиваем права
+RUN mkdir -p /data && chown -R celery:celery /data
+
 # Установка Poetry через официальный скрипт
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
@@ -15,7 +21,7 @@ ENV PATH="/root/.local/bin:$PATH"
 COPY pyproject.toml poetry.lock ./
 
 # Настройка poetry и установка зависимостей
-RUN poetry config virtualenvs.create false && poetry install --only main --no-root --no-interaction --no-ansi
+RUN poetry config virtualenvs.create false && poetry install --no-root --no-interaction --no-ansi
 
 # Stage 0: Development stage
 FROM base AS dev-stage
@@ -26,6 +32,9 @@ RUN poetry install --only dev --no-root --no-interaction --no-ansi
 
 # Установка watchdog для автоперезагрузки
 RUN pip install watchdog[watchmedo]
+
+# Настройка прав доступа
+RUN chown -R celery:celery /app
 
 # Копируем entrypoint-dev.sh и делаем его исполняемым
 COPY entrypoint-dev.sh /app/entrypoint-dev.sh
