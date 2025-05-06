@@ -5,6 +5,7 @@
         label="Email"
         placeholder="Введите ваш email"
         :error="emailError"
+        autocomplete="email"
       />
       <button class="auth-form__submit">Восстановить пароль</button>
       <span class="auth-form__link" @click="$emit('switch', 'login')">
@@ -36,10 +37,23 @@
         try {
           await api.post('/auth/users/reset_password/', { email: this.email });
           toast.success('Инструкция по восстановлению отправлена на вашу почту.');
-          //alert('Инструкция по восстановлению отправлена на вашу почту.');
-        } catch {
-          this.emailError = 'Ошибка восстановления пароля';
-          toast.error('Произошла ошибка. Попробуйте позже.');
+        } catch (error) {
+          if (error.response && error.response.data && error.response.data.detail) {
+            this.emailError = error.response.data.detail;
+            toast.error(this.emailError);
+          } else if (error.response && error.response.data) {
+            this.emailError = JSON.stringify(error.response.data);
+            toast.error(this.emailError);
+          } else if (error instanceof Error) {
+            this.emailError = error.message;
+            toast.error(this.emailError);
+          } else if (typeof error === 'string') {
+            this.emailError = error;
+            toast.error(this.emailError);
+          } else {
+            this.emailError = 'Ошибка восстановления пароля';
+            toast.error('Произошла ошибка. Попробуйте позже.');
+          }
         }
       },
     },

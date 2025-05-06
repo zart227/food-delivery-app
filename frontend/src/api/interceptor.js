@@ -17,8 +17,12 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     
-    // Проверяем, является ли ошибка связанной с истечением токена
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Не делать refresh, если это попытка логина
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !(originalRequest.url && originalRequest.url.includes('/auth/jwt/create/'))
+    ) {
       originalRequest._retry = true;
       
       try {

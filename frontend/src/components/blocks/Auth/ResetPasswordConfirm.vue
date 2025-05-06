@@ -7,12 +7,14 @@
           v-model="newPassword"
           placeholder="Новый пароль"
           required
+          autocomplete="new-password"
         />
         <input
           type="password"
           v-model="reNewPassword"
           placeholder="Повторите новый пароль"
           required
+          autocomplete="new-password"
         />
         <button type="submit">Подтвердить</button>
       </form>
@@ -62,10 +64,23 @@
           this.errorMessage = '';
           this.$emit('switch', 'login')
 
-        } catch {
-          toast.error('Произошла ошибка. Попробуйте позже.');
-          this.errorMessage =
-            'Ошибка при сбросе пароля. Проверьте данные или попробуйте позже.';
+        } catch (error) {
+          if (error.response && error.response.data && error.response.data.detail) {
+            toast.error(error.response.data.detail);
+            this.errorMessage = error.response.data.detail;
+          } else if (error.response && error.response.data) {
+            toast.error(JSON.stringify(error.response.data));
+            this.errorMessage = JSON.stringify(error.response.data);
+          } else if (error instanceof Error) {
+            toast.error(error.message);
+            this.errorMessage = error.message;
+          } else if (typeof error === 'string') {
+            toast.error(error);
+            this.errorMessage = error;
+          } else {
+            toast.error('Произошла ошибка. Попробуйте позже.');
+            this.errorMessage = 'Ошибка при сбросе пароля. Проверьте данные или попробуйте позже.';
+          }
           this.successMessage = '';
         }
       },

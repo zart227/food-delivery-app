@@ -7,12 +7,14 @@
         label="Новый Email"
         type="email"
         :error="errors.new_email"
+        autocomplete="email"
       />
       <InputField
         v-model="form.re_new_email"
         label="Подтверждение нового Email"
         type="email"
         :error="errors.re_new_email"
+        autocomplete="email"
       />
       <button type="submit" class="reset-email__submit">
         Подтвердить смену Email
@@ -75,13 +77,20 @@ export default {
             new_email: error.response.data.new_email?.[0] || '',
             re_new_email: error.response.data.re_new_email?.[0] || ''
           }
-          
           if (error.response.data.token) {
             toast.error('Ссылка для смены email недействительна или устарела')
             router.push('/profile')
+          } else if (error.response.data.detail) {
+            toast.error(error.response.data.detail)
           } else {
             toast.error('Ошибка при смене email')
           }
+        } else if (error instanceof Error) {
+          toast.error(error.message)
+        } else if (typeof error === 'string') {
+          toast.error(error)
+        } else {
+          toast.error('Ошибка при смене email')
         }
       }
     }

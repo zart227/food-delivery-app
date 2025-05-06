@@ -52,9 +52,23 @@ export default {
         await api.post('/auth/users/resend_activation/', { email: this.email })
         toast.success('Письмо успешно отправлено. Проверьте вашу почту.')
         this.successMessage = 'Письмо успешно отправлено. Проверьте вашу почту.'
-      } catch {
-        this.errorMessage = 'Не удалось отправить письмо. Попробуйте позже.'
-        toast.error('Произошла ошибка. Попробуйте позже.')
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.detail) {
+          this.errorMessage = error.response.data.detail;
+          toast.error(this.errorMessage);
+        } else if (error.response && error.response.data) {
+          this.errorMessage = JSON.stringify(error.response.data);
+          toast.error(this.errorMessage);
+        } else if (error instanceof Error) {
+          this.errorMessage = error.message;
+          toast.error(this.errorMessage);
+        } else if (typeof error === 'string') {
+          this.errorMessage = error;
+          toast.error(this.errorMessage);
+        } else {
+          this.errorMessage = 'Не удалось отправить письмо. Попробуйте позже.';
+          toast.error('Произошла ошибка. Попробуйте позже.');
+        }
       }
     },
   },

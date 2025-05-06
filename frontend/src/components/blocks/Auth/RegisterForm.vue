@@ -8,24 +8,28 @@
       v-model="form.username"
       label="Имя пользователя"
       :error="errors.username"
+      autocomplete="username"
     />
     <InputField
       v-model="form.email"
       label="Электронная почта"
       type="email"
       :error="errors.email"
+      autocomplete="email"
     />
     <InputField
       v-model="form.password"
       label="Пароль"
       type="password"
       :error="errors.password"
+      autocomplete="new-password"
     />
     <InputField
       v-model="form.confirmPassword"
       label="Подтвердите пароль"
       type="password"
       :error="errors.confirmPassword"
+      autocomplete="new-password"
     />
     <CheckboxField
       v-model="form.subscribe"
@@ -113,6 +117,12 @@ export default {
       } catch (error) {
         if (error.response && error.response.data) {
           this.processBackendErrors(error.response.data)
+        } else if (error instanceof Error) {
+          this.toast.error(error.message)
+          console.error('Ошибка регистрации:', error)
+        } else if (typeof error === 'string') {
+          this.toast.error(error)
+          console.error('Ошибка регистрации:', error)
         } else {
           this.toast.error('Произошла ошибка при регистрации.')
           console.error('Ошибка регистрации:', error)

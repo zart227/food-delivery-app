@@ -93,15 +93,24 @@ export default {
         this.errorMessage = ''
         this.startRedirectCountdown()
       } catch (error) {
-        if (error.response && error.response.status === 403) {
-          this.errorMessage = 'Аккаунт уже активирован. Вы можете войти.'
-          this.toast.error('Аккаунт уже активирован. Вы можете войти.')
-          this.startRedirectCountdown()
+        if (error.response && error.response.data && error.response.data.detail) {
+          this.errorMessage = error.response.data.detail;
+          this.toast.error(this.errorMessage);
+          this.startRedirectCountdown();
+        } else if (error.response && error.response.data) {
+          this.errorMessage = JSON.stringify(error.response.data);
+          this.toast.error(this.errorMessage);
+        } else if (error instanceof Error) {
+          this.errorMessage = error.message;
+          this.toast.error(this.errorMessage);
+        } else if (typeof error === 'string') {
+          this.errorMessage = error;
+          this.toast.error(this.errorMessage);
         } else {
-          this.toast.error('Произошла ошибка. Попробуйте позже.')
-          this.errorMessage = 'Ошибка активации аккаунта. Попробуйте позже.'
+          this.toast.error('Произошла ошибка. Попробуйте позже.');
+          this.errorMessage = 'Ошибка активации аккаунта. Попробуйте позже.';
         }
-        this.successMessage = ''
+        this.successMessage = '';
       }
     },
     async resendActivation() {

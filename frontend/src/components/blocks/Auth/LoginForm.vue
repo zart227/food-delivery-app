@@ -6,6 +6,7 @@
       label="Имя пользователя"
       placeholder="Введите ваш username"
       :error="usernameError"
+      autocomplete="username"
     />
     <InputField
       v-model="password"
@@ -13,6 +14,7 @@
       type="password"
       placeholder="Введите ваш пароль"
       :error="passwordError"
+      autocomplete="current-password"
     />
     <button class="auth-form__submit" type="submit">Войти</button>
     <span class="auth-form__link" @click="$emit('switch', 'forgotPassword')">
@@ -62,13 +64,24 @@ export default {
         // Перенаправляем на главную страницу
         await this.$router.push('/')
       } catch (error) {
-        if (error.response && error.response.status === 401) {
-          this.usernameError = 'Неправильный логин или пароль'
-          toast.error('Неправильный логин или пароль')
+        console.error('Полный объект ошибки:', error, error.response?.data);
+        if (error.response && error.response.data && error.response.data.detail) {
+          const message = error.response.data.detail;
+          toast.error(message);
+          this.usernameError = message;
+        } else if (error.response && error.response.data) {
+          const message = JSON.stringify(error.response.data);
+          toast.error(message);
+          this.usernameError = message;
+        } else if (error instanceof Error) {
+          toast.error(error.message);
+          this.usernameError = error.message;
+        } else if (typeof error === 'string') {
+          toast.error(error);
+          this.usernameError = error;
         } else {
-          console.error('Ошибка авторизации:', error)
-          toast.error('Произошла ошибка. Попробуйте позже.')
-          this.usernameError = 'Произошла ошибка. Попробуйте позже.'
+          toast.error('Произошла ошибка. Попробуйте позже.');
+          this.usernameError = 'Произошла ошибка. Попробуйте позже.';
         }
       }
     },
