@@ -42,6 +42,7 @@ import { useBasketStore } from '@/stores/basket'
 import HeaderComponent from '@/components/blocks/HeaderComponent.vue'
 import ButtonComponent from '@/components/ui/ButtonComponent.vue'
 import { useToast } from 'vue-toastification'
+import { getErrorMessage } from '@/utils/cookies'
 
 export default {
   name: 'ProductPage',
@@ -68,8 +69,9 @@ export default {
         try {
           await productsStore.fetchAllProducts() // Загрузка продуктов, если их ещё нет
         } catch (error) {
+          const message = getErrorMessage(error, 'Ошибка загрузки списка продуктов!')
           console.error('Ошибка загрузки списка продуктов:', error)
-          toast.error('Ошибка загрузки списка продуктов!')
+          toast.error(message)
         }
       }
       productsStore.setProductItem(route.params.id) // Устанавливаем текущий продукт
@@ -80,7 +82,8 @@ export default {
           await basketStore.addGoodInBasket(product.value.id)
           toast.success('Товар добавлен в корзину!')
         } catch (error) {
-          toast.error('Ошибка добавления товара в корзину!')
+          const message = getErrorMessage(error, 'Ошибка добавления товара в корзину!')
+          toast.error(message)
           console.error('Ошибка добавления товара в корзину:', error)
         }
       }

@@ -92,6 +92,7 @@ import { useOrdersStore } from '@/stores/orders'
 import { createOrder } from '@/services/orderService'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import { getErrorMessage } from '@/utils/cookies'
 
 export default {
   components: {
@@ -168,7 +169,8 @@ export default {
         // Переход на страницу заказов
         this.router.push('/orders')
       } catch (error) {
-        this.errorMessage = 'Не удалось оформить заказ. Попробуйте снова.'
+        const message = getErrorMessage(error, 'Не удалось оформить заказ. Попробуйте снова.')
+        this.errorMessage = message
         console.error('Ошибка оформления заказа:', error)
       }
     },

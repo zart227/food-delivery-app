@@ -61,6 +61,7 @@ import HeaderComponent from '@/components/blocks/HeaderComponent.vue'
 import OrderCard from '@/components/blocks/OrderCard.vue'
 import { useOrdersStore } from '@/stores/orders'
 import { useToast } from 'vue-toastification'
+import { getErrorMessage } from '@/utils/cookies'
 
 export default {
   name: 'OrdersPage',

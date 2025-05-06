@@ -28,6 +28,7 @@ import FooterBasket from '@/components/blocks/FooterBasket.vue'
 import { onBeforeMount } from 'vue'
 import { useBasketStore } from '@/stores/basket'
 import { useToast } from 'vue-toastification'
+import { getErrorMessage } from '@/utils/cookies'
 
 export default {
   name: 'BasketPage',
@@ -45,7 +46,8 @@ export default {
       try {
         await basketStore.fetchUserBasket()
       } catch (error) {
-        toast.error('Произошла ошибка загрузки корзины!')
+        const message = getErrorMessage(error, 'Произошла ошибка загрузки корзины!')
+        toast.error(message)
         console.error('Ошибка загрузки корзины:', error)
       }
     })
