@@ -2,40 +2,27 @@ from celery import shared_task
 from datetime import timedelta
 from django.utils.timezone import now
 from .models import Order, OrderItem
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 
 @shared_task
 def send_order_confirmation_email(order_id, user_email):
     try:
-        # Получаем заказ и его элементы
-        order = Order.objects.get(id=order_id)
-        order_items = OrderItem.objects.filter(order=order)
-
-        # Формируем текст письма с деталями заказа
-        order_details = "\n".join(
-            [
-                f"{item.product.title} × {item.quantity} шт. — {item.price} ₽"
-                for item in order_items
-            ]
-        )
-        total_price = f"Общая стоимость: {order.total_price} ₽"
-
-        message_body = (
-            f"Ваш заказ #{order_id} успешно оформлен!\n\n"
-            "Детали заказа:\n"
-            f"{order_details}\n\n"
-            f"{total_price}\n\n"
-            "Спасибо за ваш заказ!"
-        )
-
-        # Отправляем письмо
-        send_mail(
-            subject="Ваш заказ оформлен",
-            message=message_body,
-            from_email="noreply@example.com",
-            recipient_list=[user_email],
-        )
+        # Получаем заказ и его элементы с подгрузкой товаров
+        order = Order.objects.prefetch_related('items__product').get(id=order_id)
+        # Формируем контекст для шаблона
+        context = {
+            "order": order,
+            "site_name": "Ваш сайт",  # Можно заменить на Site.objects.get_current().name
+        }
+        subject = f"Ваш заказ #{order.id} успешно оформлен!"
+        text_content = f"Ваш заказ #{order.id} успешно оформлен!"
+        # text_content = render_to_string("email/order_success.html", context)
+        html_content = render_to_string("email/order_success.html", context)
+        msg = EmailMultiAlternatives(subject, text_content, "noreply@example.com", [user_email])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
         print(f"Email отправлен на {user_email}")
     except Order.DoesNotExist:
         print(f"Ошибка: Заказ с ID {order_id} не найден.")

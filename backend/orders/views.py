@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-# from .models import Order
+from .models import Order
 from .serializers import OrderSerializer
 from .tasks import send_order_confirmation_email
 from basket.models import Basket
@@ -131,3 +131,21 @@ class UpdateOrderStatusView(APIView):
                 {'error': 'Order not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+
+class ListOrdersView(generics.ListAPIView):
+    """
+    API endpoint для получения списка заказов текущего пользователя.
+    """
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    @swagger_auto_schema(
+        operation_description="Получить список заказов текущего пользователя",
+        responses={200: OrderSerializer(many=True)}
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)

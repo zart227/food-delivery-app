@@ -1,11 +1,16 @@
 from rest_framework import serializers
 from .models import Order, OrderItem
+from products.serializers import ProductSerializer
+from products.models import Product
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+    product_detail = ProductSerializer(source='product', read_only=True)
+
     class Meta:
         model = OrderItem
-        fields = ["product", "quantity", "price"]
+        fields = ["product", "product_detail", "quantity", "price"]
 
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -39,5 +44,24 @@ class OrderSerializer(serializers.ModelSerializer):
         # Создаем элементы заказа
         for item_data in items_data:
             OrderItem.objects.create(order=order, **item_data)
+
+        # Импортируем необходимые классы для отправки письма
+        from users.email import OrderConfirmationEmail
+        from django.contrib.sites.models import Site
+        from django.conf import settings
+
+        current_site = Site.objects.get_current()
+        protocol = "https" if getattr(settings, 'SECURE_SSL_REDIRECT', False) else "http"
+        OrderConfirmationEmail(
+            context={
+                "user": order.user,
+                "order": order,
+                "site_name": current_site.name,
+                "domain": current_site.domain,
+                "protocol": protocol,
+                "delivery_address": order.address,
+                "order_status_display": order.get_status_display(),
+            }
+        ).send([order.user.email])
 
         return order
