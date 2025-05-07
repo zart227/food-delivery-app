@@ -68,9 +68,9 @@
                 {{ formatDate(order.created_at) }}
               </div>
               <div class="order-card__items">
-                <div v-for="item in order.items" :key="item.product.id" class="order-card__item">
-                  <img v-if="item.product.image" :src="item.product.image" :alt="item.product.title" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px; border-radius: 4px; display: inline-block; vertical-align: middle;" />
-                  <span style="vertical-align: middle;">{{ item.product.title }} × {{ item.quantity }}</span>
+                <div v-for="item in order.items" :key="item.product.id || item.product_detail.id" class="order-card__item">
+                  <img v-if="item.product_detail && item.product_detail.image" :src="item.product_detail.image" :alt="item.product_detail.title" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px; border-radius: 4px; display: inline-block; vertical-align: middle;" />
+                  <span style="vertical-align: middle;">{{ item.product_detail ? item.product_detail.title : '' }} × {{ item.quantity }}</span>
                 </div>
               </div>
               <div class="order-card__total">
@@ -104,9 +104,9 @@
                 </div>
               </div>
               <div class="order-card__items">
-                <div v-for="item in order.items" :key="item.product.id" class="order-card__item">
-                  <img v-if="item.product.image" :src="item.product.image" :alt="item.product.title" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px; border-radius: 4px; display: inline-block; vertical-align: middle;" />
-                  <span style="vertical-align: middle;">{{ item.product.title }} × {{ item.quantity }}</span>
+                <div v-for="item in order.items" :key="item.product.id || item.product_detail.id" class="order-card__item">
+                  <img v-if="item.product_detail && item.product_detail.image" :src="item.product_detail.image" :alt="item.product_detail.title" style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px; border-radius: 4px; display: inline-block; vertical-align: middle;" />
+                  <span style="vertical-align: middle;">{{ item.product_detail ? item.product_detail.title : '' }} × {{ item.quantity }}</span>
                 </div>
               </div>
               <div class="order-card__total">

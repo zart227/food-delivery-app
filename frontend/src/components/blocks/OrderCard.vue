@@ -28,11 +28,14 @@
 
       <div class="order-card__items">
         <h4 class="order-card__subtitle">Состав заказа:</h4>
-        <div v-for="item in order.items" :key="item.id" class="order-card__item">
-          <span class="order-card__item-title">{{ item.product.title }}</span>
+        <div v-for="item in order.items" :key="item.id || item.product_detail.id" class="order-card__item">
+          <span class="order-card__item-title">
+            <img v-if="item.product_detail && item.product_detail.image" :src="item.product_detail.image" :alt="item.product_detail.title" style="width: 32px; height: 32px; object-fit: cover; margin-right: 8px; border-radius: 4px; vertical-align: middle;" />
+            {{ item.product_detail ? item.product_detail.title : '' }}
+          </span>
           <div class="order-card__item-details">
             <span>{{ item.quantity }} шт.</span>
-            <span>{{ item.price.toLocaleString() }} ₽</span>
+            <span>{{ Number(item.price).toLocaleString() }} ₽</span>
           </div>
         </div>
       </div>
