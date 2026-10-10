@@ -1,5 +1,6 @@
 from celery import shared_task
-from datetime import timedelta
+from datetime import date, datetime, time, timedelta
+from django.utils import timezone
 from django.utils.timezone import now
 from .models import Order, OrderItem
 from django.core.mail import send_mail, EmailMultiAlternatives
@@ -40,17 +41,29 @@ def delete_old_pending_orders():
 
 
 @shared_task
-def generate_daily_report():
+def generate_daily_report(report_date: date | None = None):
+    """Report completed orders created during a local calendar day."""
     from django.db.models import Sum
 
-    today = now().date()
-    completed_orders = Order.objects.filter(status="completed", created_at__date=today)
+    report_timezone = timezone.get_default_timezone()
+    if report_date is None:
+        report_date = timezone.localdate(timezone=report_timezone) - timedelta(days=1)
+    # ISO dates also allow manual recalculation through Celery's JSON serializer.
+    elif isinstance(report_date, str):
+        report_date = date.fromisoformat(report_date)
+    start = datetime.combine(report_date, time.min, tzinfo=report_timezone)
+    end = datetime.combine(report_date + timedelta(days=1), time.min, tzinfo=report_timezone)
+    # Order has no completion timestamp; use its creation time and current status.
+    completed_orders = Order.objects.filter(
+        status="completed", created_at__gte=start, created_at__lt=end,
+    )
     total_revenue = completed_orders.aggregate(Sum('total_price'))['total_price__sum'] or 0
     total_orders = completed_orders.count()
 
     send_mail(
-        subject="Ежедневный отчет о заказах",
-        message=f"Сегодня выполнено заказов: {total_orders}\nОбщая выручка: {total_revenue} ₽",
+        subject=f"Ежедневный отчет о заказах за {report_date:%Y-%m-%d}",
+        message=(f"Отчет за {report_date:%Y-%m-%d}\n"
+                 f"Выполнено заказов: {total_orders}\nОбщая выручка: {total_revenue} ₽"),
         from_email="noreply@example.com",
         recipient_list=["admin@example.com"],
     )
